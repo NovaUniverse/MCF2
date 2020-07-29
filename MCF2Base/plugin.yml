@@ -1,0 +1,5 @@
+name: MCF2Base
+main: xyz.mcfridays.base.MCF
+description: MCF Core plugin
+version: 1.0
+depend: [EZCore]

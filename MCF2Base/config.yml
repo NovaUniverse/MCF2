@@ -1,0 +1,10 @@
+# MySQL server
+mysql:
+    driver: com.mysql.jdbc.Driver
+    host: jdbc:mysql://localhost
+    username: root
+    password: root
+    database: mcf
+
+# Name of the server in the bungeecord configuration
+server_name: null

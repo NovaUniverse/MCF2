@@ -1,0 +1,5 @@
+name: MCF2Hungergames
+main: xyz.mcfridays.games.hungergames.MCFHungergames
+description: MCF Hungergames
+version: 1.0
+depend: [EZCore, MCF2Base]
