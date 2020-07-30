@@ -14,10 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
 import xyz.zeeraa.ezcore.database.DBConnection;
 import xyz.zeeraa.ezcore.database.DBCredentials;
 import xyz.zeeraa.ezcore.log.EZLogger;
 import xyz.zeeraa.ezcore.module.ModuleManager;
+import xyz.zeeraa.ezcore.module.game.GameManager;
 import xyz.zeeraa.ezcore.module.game.events.GameLoadedEvent;
 import xyz.zeeraa.ezcore.module.gamelobby.GameLobby;
 import xyz.zeeraa.ezcore.module.scoreboard.EZScoreboard;
@@ -84,6 +86,8 @@ public class MCF extends JavaPlugin implements Listener {
 
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 
+		GameManager.getInstance().setPlayerEliminationMessage(new MCFPlayerEliminationMessage());
+		
 		EZScoreboard.getInstance().setDefaultTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "MCF Season 2");
 		EZScoreboard.getInstance().setLineCount(15);
 
