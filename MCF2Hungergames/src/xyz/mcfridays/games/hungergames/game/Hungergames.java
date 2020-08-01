@@ -50,7 +50,7 @@ public class Hungergames extends MapGame implements Listener {
 	public String getName() {
 		return "hungergames";
 	}
-	
+
 	public String getDisplayName() {
 		return "Hungergames";
 	}
@@ -160,7 +160,7 @@ public class Hungergames extends MapGame implements Listener {
 
 	@Override
 	public void onEnd() {
-		
+
 	}
 
 	@Override
@@ -219,9 +219,9 @@ public class Hungergames extends MapGame implements Listener {
 			public void execute() {
 				countdownOver = true;
 				Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "May the odds be ever in your favor");
-				
+
 				setCages(false);
-				
+
 				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 					player.playSound(player.getLocation(), Sound.NOTE_PLING, 1F, 2F);
 				}
@@ -247,5 +247,14 @@ public class Hungergames extends MapGame implements Listener {
 		});
 
 		startTimer.start();
+	}
+
+	@Override
+	public void onPlayerRespawn(Player player) {
+		player.setGameMode(GameMode.SPECTATOR);
+		player.setHealth(20);
+		if (hasActiveMap()) {
+			player.teleport(getActiveMap().getSpectatorLocation());
+		}
 	}
 }
