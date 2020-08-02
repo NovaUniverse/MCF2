@@ -11,6 +11,7 @@ import xyz.mcfridays.games.hungergames.game.Hungergames;
 import xyz.zeeraa.ezcore.EZCore;
 import xyz.zeeraa.ezcore.log.EZLogger;
 import xyz.zeeraa.ezcore.module.ModuleManager;
+import xyz.zeeraa.ezcore.module.compass.CompassTracker;
 import xyz.zeeraa.ezcore.module.game.GameManager;
 import xyz.zeeraa.ezcore.module.game.mapselector.selectors.guivoteselector.GUIMapVote;
 import xyz.zeeraa.ezcore.module.gamelobby.GameLobby;
@@ -38,6 +39,7 @@ public class MCFHungergames extends JavaPlugin {
 
 		ModuleManager.enable(GameManager.class);
 		ModuleManager.enable(GameLobby.class);
+		ModuleManager.enable(CompassTracker.class);
 
 		this.game = new Hungergames();
 

@@ -251,10 +251,16 @@ public class Hungergames extends MapGame implements Listener {
 
 	@Override
 	public void onPlayerRespawn(Player player) {
-		player.setGameMode(GameMode.SPECTATOR);
-		player.setHealth(20);
-		if (hasActiveMap()) {
-			player.teleport(getActiveMap().getSpectatorLocation());
-		}
+		Bukkit.getScheduler().scheduleSyncDelayedTask(EZCore.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				player.setGameMode(GameMode.SPECTATOR);
+				player.setHealth(20);
+				if (hasActiveMap()) {
+					player.teleport(getActiveMap().getSpectatorLocation());
+				}
+			}
+		}, 5L);
+		
 	}
 }

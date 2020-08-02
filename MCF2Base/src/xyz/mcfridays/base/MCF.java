@@ -15,10 +15,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
+import xyz.mcfridays.base.tracker.MCFCompassTraker;
 import xyz.zeeraa.ezcore.database.DBConnection;
 import xyz.zeeraa.ezcore.database.DBCredentials;
 import xyz.zeeraa.ezcore.log.EZLogger;
 import xyz.zeeraa.ezcore.module.ModuleManager;
+import xyz.zeeraa.ezcore.module.compass.CompassTracker;
 import xyz.zeeraa.ezcore.module.game.GameManager;
 import xyz.zeeraa.ezcore.module.game.events.GameLoadedEvent;
 import xyz.zeeraa.ezcore.module.gamelobby.GameLobby;
@@ -90,6 +92,9 @@ public class MCF extends JavaPlugin implements Listener {
 		
 		EZScoreboard.getInstance().setDefaultTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "MCF Season 2");
 		EZScoreboard.getInstance().setLineCount(15);
+		
+		CompassTracker.getInstance().setCompassTrackerTarget(new MCFCompassTraker());
+		CompassTracker.getInstance().setStrictMode(true);
 
 	}
 
