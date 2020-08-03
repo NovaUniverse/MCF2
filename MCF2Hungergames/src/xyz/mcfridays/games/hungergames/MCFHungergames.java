@@ -5,18 +5,25 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.mcfridays.games.hungergames.game.Hungergames;
-import xyz.zeeraa.ezcore.EZCore;
-import xyz.zeeraa.ezcore.log.EZLogger;
-import xyz.zeeraa.ezcore.module.ModuleManager;
-import xyz.zeeraa.ezcore.module.compass.CompassTracker;
-import xyz.zeeraa.ezcore.module.game.GameManager;
-import xyz.zeeraa.ezcore.module.game.mapselector.selectors.guivoteselector.GUIMapVote;
-import xyz.zeeraa.ezcore.module.gamelobby.GameLobby;
+import xyz.zeeraa.novacore.NovaCore;
+import xyz.zeeraa.novacore.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
+import xyz.zeeraa.novacore.log.Log;
+import xyz.zeeraa.novacore.module.ModuleManager;
+import xyz.zeeraa.novacore.module.modules.compass.CompassTracker;
+import xyz.zeeraa.novacore.module.modules.compass.event.CompassTrackingEvent;
+import xyz.zeeraa.novacore.module.modules.game.GameManager;
+import xyz.zeeraa.novacore.module.modules.game.mapselector.selectors.guivoteselector.GUIMapVote;
+import xyz.zeeraa.novacore.module.modules.gamelobby.GameLobby;
 
-public class MCFHungergames extends JavaPlugin {
+public class MCFHungergames extends JavaPlugin implements Listener {
 	private Hungergames game;
 
 	@Override
@@ -32,7 +39,7 @@ public class MCFHungergames extends JavaPlugin {
 			FileUtils.forceMkdir(lootTableFolder);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			EZLogger.fatal("Failed to setup data directory");
+			Log.fatal("Failed to setup data directory");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -49,16 +56,36 @@ public class MCFHungergames extends JavaPlugin {
 
 		GameManager.getInstance().setMapSelector(mapSelector);
 
+		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		Bukkit.getServer().getPluginManager().registerEvents(mapSelector, this);
 
-		EZLogger.info("Hungergames", "Loading maps from " + mapFolder.getPath());
+		Log.info("Hungergames", "Loading maps from " + mapFolder.getPath());
 		GameManager.getInstance().getMapReader().loadAll(mapFolder, worldFolder);
-		
-		EZCore.getInstance().getLootTableManager().loadAll(lootTableFolder);
+
+		NovaCore.getInstance().getLootTableManager().loadAll(lootTableFolder);
 	}
 
 	@Override
 	public void onDisable() {
+		HandlerList.unregisterAll((Plugin) this);
 		Bukkit.getScheduler().cancelTasks(this);
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onCompassTracking(CompassTrackingEvent e) {
+		boolean enabled = false;
+		if (GameManager.getInstance().isEnabled()) {
+			if (GameManager.getInstance().hasGame()) {
+				if (GameManager.getInstance().getActiveGame().hasStarted()) {
+					enabled = true;
+				}
+			}
+		}
+		e.setCancelled(enabled);
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onVersionIndependantPlayerAchievementAwarded(VersionIndependantPlayerAchievementAwardedEvent e) {
+		e.setCancelled(true);
 	}
 }

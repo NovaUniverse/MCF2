@@ -14,17 +14,18 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import xyz.zeeraa.ezcore.EZCore;
-import xyz.zeeraa.ezcore.callbacks.Callback;
-import xyz.zeeraa.ezcore.log.EZLogger;
-import xyz.zeeraa.ezcore.module.game.MapGame;
-import xyz.zeeraa.ezcore.module.game.PlayerQuitEliminationAction;
-import xyz.zeeraa.ezcore.teams.Team;
-import xyz.zeeraa.ezcore.timers.BasicTimer;
-import xyz.zeeraa.ezcore.timers.TickCallback;
-import xyz.zeeraa.ezcore.utils.PlayerUtils;
+import xyz.zeeraa.novacore.NovaCore;
+import xyz.zeeraa.novacore.callbacks.Callback;
+import xyz.zeeraa.novacore.log.Log;
+import xyz.zeeraa.novacore.module.modules.game.MapGame;
+import xyz.zeeraa.novacore.module.modules.game.PlayerQuitEliminationAction;
+import xyz.zeeraa.novacore.teams.Team;
+import xyz.zeeraa.novacore.timers.BasicTimer;
+import xyz.zeeraa.novacore.timers.TickCallback;
+import xyz.zeeraa.novacore.utils.PlayerUtils;
 
 public class Hungergames extends MapGame implements Listener {
 	private boolean started;
@@ -113,10 +114,14 @@ public class Hungergames extends MapGame implements Listener {
 		location.clone().add(0, 2, 0).getBlock().setType(material);
 	}
 
-	private void tpToSpectator(Player player) {
-		player.setMaxHealth(20);
+	@EventHandler
+	public void tpToSpectator(Player player) {
+		NovaCore.getInstance().getVersionIndependentUtils().resetEntityMaxHealth(player);
 		player.setHealth(20);
-		player.teleport(getActiveMap().getSpectatorLocation());
+		player.setGameMode(GameMode.SPECTATOR);
+		if (hasActiveMap()) {
+			player.teleport(getActiveMap().getSpectatorLocation());
+		}
 	}
 
 	public void tpToArena(Player player) {
@@ -168,7 +173,7 @@ public class Hungergames extends MapGame implements Listener {
 		ArrayList<Player> toTeleport = new ArrayList<Player>();
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			if (players.contains(player.getUniqueId())) {
-				EZLogger.trace(player.getName() + " is in the player list");
+				Log.trace(player.getName() + " is in the player list");
 				toTeleport.add(player);
 			} else {
 				tpToSpectator(player);
@@ -179,10 +184,10 @@ public class Hungergames extends MapGame implements Listener {
 			Collections.shuffle(getActiveMap().getStarterLocations());
 			Collections.shuffle(toTeleport);
 		} else {
-			if (EZCore.getInstance().hasTeamManager()) {
+			if (NovaCore.getInstance().hasTeamManager()) {
 				ArrayList<UUID> teamOrder = new ArrayList<UUID>();
 
-				for (Team team : EZCore.getInstance().getTeamManager().getTeams()) {
+				for (Team team : NovaCore.getInstance().getTeamManager().getTeams()) {
 					teamOrder.add(team.getTeamUuid());
 				}
 
@@ -192,7 +197,7 @@ public class Hungergames extends MapGame implements Listener {
 
 				for (UUID uuid : teamOrder) {
 					for (Player pt : toTeleport) {
-						if (EZCore.getInstance().getTeamManager().getPlayerTeam(pt).getTeamUuid().equals(uuid)) {
+						if (NovaCore.getInstance().getTeamManager().getPlayerTeam(pt).getTeamUuid().equals(uuid)) {
 							toTeleportReal.add(pt);
 						}
 					}
@@ -201,7 +206,7 @@ public class Hungergames extends MapGame implements Listener {
 			}
 		}
 
-		EZLogger.debug("Final toTeleport size: " + toTeleport.size());
+		Log.debug("Final toTeleport size: " + toTeleport.size());
 
 		for (Location location : getActiveMap().getStarterLocations()) {
 			setStartCage(location, true);
@@ -233,12 +238,12 @@ public class Hungergames extends MapGame implements Listener {
 			public void execute(int timeLeft) {
 				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 					player.playSound(player.getLocation(), Sound.NOTE_PLING, 1F, 1.3F);
-					if (EZCore.getInstance().getActionBar() != null) {
-						EZCore.getInstance().getActionBar().sendMessage(player, ChatColor.GOLD + "" + ChatColor.BOLD + "Starting in: " + ChatColor.AQUA + ChatColor.BOLD + timeLeft);
+					if (NovaCore.getInstance().getActionBar() != null) {
+						NovaCore.getInstance().getActionBar().sendMessage(player, ChatColor.GOLD + "" + ChatColor.BOLD + "Starting in: " + ChatColor.AQUA + ChatColor.BOLD + timeLeft);
 					}
 				}
 
-				if (EZCore.getInstance().getActionBar() == null) {
+				if (NovaCore.getInstance().getActionBar() == null) {
 					Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Starting in: " + ChatColor.AQUA + ChatColor.BOLD + timeLeft);
 				} else {
 					Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Starting in: " + ChatColor.AQUA + ChatColor.BOLD + timeLeft);
@@ -251,16 +256,12 @@ public class Hungergames extends MapGame implements Listener {
 
 	@Override
 	public void onPlayerRespawn(Player player) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(EZCore.getInstance(), new Runnable() {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(NovaCore.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				player.setGameMode(GameMode.SPECTATOR);
-				player.setHealth(20);
-				if (hasActiveMap()) {
-					player.teleport(getActiveMap().getSpectatorLocation());
-				}
+				tpToSpectator(player);
 			}
 		}, 5L);
-		
+
 	}
 }

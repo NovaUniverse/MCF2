@@ -6,10 +6,10 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 
-import xyz.zeeraa.ezcore.EZCore;
-import xyz.zeeraa.ezcore.module.game.PlayerEliminationMessage;
-import xyz.zeeraa.ezcore.module.game.PlayerEliminationReason;
-import xyz.zeeraa.ezcore.teams.Team;
+import xyz.zeeraa.novacore.NovaCore;
+import xyz.zeeraa.novacore.module.modules.game.PlayerEliminationMessage;
+import xyz.zeeraa.novacore.module.modules.game.PlayerEliminationReason;
+import xyz.zeeraa.novacore.teams.Team;
 
 public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 	@Override
@@ -18,8 +18,8 @@ public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 
 		String extra = "";
 
-		if (EZCore.getInstance().getTeamManager() != null) {
-			Team playerTeam = EZCore.getInstance().getTeamManager().getPlayerTeam(player);
+		if (NovaCore.getInstance().getTeamManager() != null) {
+			Team playerTeam = NovaCore.getInstance().getTeamManager().getPlayerTeam(player);
 			if (playerTeam != null) {
 				playerColor = playerTeam.getTeamColor();
 			}

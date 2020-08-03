@@ -4,22 +4,23 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import xyz.zeeraa.ezcore.module.compass.CompassTrackerTarget;
-import xyz.zeeraa.ezcore.module.game.GameManager;
+import xyz.zeeraa.novacore.module.modules.compass.CompassTarget;
+import xyz.zeeraa.novacore.module.modules.compass.CompassTrackerTarget;
+import xyz.zeeraa.novacore.module.modules.game.GameManager;
+
 
 public class MCFCompassTraker implements CompassTrackerTarget {
 	@Override
-	public Location getCompassTarget(Player player) {
+	public CompassTarget getCompassTarget(Player player) {
 		if(GameManager.getInstance().hasGame()) {
 			List<UUID> players = GameManager.getInstance().getActiveGame().getPlayers();
 			
 			players.remove(player.getUniqueId());
 			
 			double closestDistance = Double.MAX_VALUE;
-			Location result = null;
+			CompassTarget result = null;
 			
 			for(UUID uuid : players) {
 				Player p = Bukkit.getServer().getPlayer(uuid);
@@ -31,7 +32,7 @@ public class MCFCompassTraker implements CompassTrackerTarget {
 							
 							if(dist < closestDistance) {
 								closestDistance = dist;
-								result = p.getLocation();
+								result = new CompassTarget(p.getLocation(), "Tracking player " + p.getName());
 							}
 						}
 					}

@@ -1,0 +1,160 @@
+package xyz.mcfridays.base.team;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+
+import xyz.mcfridays.base.MCF;
+import xyz.zeeraa.novacore.log.Log;
+import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
+import xyz.zeeraa.novacore.teams.Team;
+import xyz.zeeraa.novacore.teams.TeamManager;
+
+public class MCFTeamManager extends TeamManager implements Listener {
+	public static final int TEAM_COUNT = 12;
+	private static MCFTeamManager instance;
+
+	public static MCFTeamManager getInstance() {
+		return instance;
+	}
+	
+	public MCFTeamManager() {
+		MCFTeamManager.instance = this;
+		
+		for (int i = 0; i < TEAM_COUNT; i++) {
+			MCFTeam team = new MCFTeam(i + 1, 0);
+
+			this.teams.add(team);
+		}
+
+		updateTeams();
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(MCF.getInstance(), new Runnable() {
+
+			@Override
+			public void run() {
+				updateTeams();
+			}
+		}, 100L, 100L);
+	}
+
+	private void updateTeams() {
+		// Update players
+		try {
+			String sql = "SELECT uuid, team_number FROM players";
+			PreparedStatement ps = MCF.getDBConnection().getConnection().prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				UUID uuid = UUID.fromString(rs.getString("uuid"));
+				int teamNumber = rs.getInt("team_number");
+
+				for (Team team : teams) {
+					if (teamNumber <= 0) {
+						if (team.getMembers().contains(uuid)) {
+							team.getMembers().remove(uuid);
+						}
+					} else {
+						if (teamNumber == ((MCFTeam) team).getTeamNumber()) {
+							team.getMembers().add(uuid);
+						}
+					}
+				}
+			}
+
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.warn("MCFTeamManager", "Failed to update teams");
+			return;
+		}
+		
+		// Update score
+		try {
+			String sql = "SELECT score, team_number FROM teams";
+			PreparedStatement ps = MCF.getDBConnection().getConnection().prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				MCFTeam team = getTeam(rs.getInt("team_number"));
+				
+				if(team != null) {
+					team.setScore(rs.getInt("score"));
+				}
+			}
+
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.warn("MCFTeamManager", "Failed to update team score");
+			return;
+		}
+
+		// Update player names
+		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+			updatePlayerName(player);
+		}
+	}
+
+	public MCFTeam getTeam(int teamNumber) {
+		for (Team team : teams) {
+			if (((MCFTeam) team).getTeamNumber() == teamNumber) {
+				return (MCFTeam) team;
+			}
+		}
+
+		return null;
+	}
+
+	public void updatePlayerName(Player player) {
+		Team team = getPlayerTeam(player);
+
+		String name = "MissingNo";
+
+		ChatColor color = ChatColor.YELLOW;
+		if (team == null) {
+			name = color + "No team : " + ChatColor.RESET + player.getName();
+		} else {
+			if (((MCFTeam) team).getTeamNumber() >= 1) {
+				color = team.getTeamColor();
+				name = color + "Team " + ((MCFTeam) team).getTeamNumber() + " : " + ChatColor.RESET + player.getName();
+			}
+		}
+
+		player.setDisplayName("| " + name);
+		player.setPlayerListName(name);
+
+		if (NetherBoardScoreboard.getInstance().isEnabled()) {
+			String teamName = "";
+
+			if (team == null) {
+				teamName = ChatColor.YELLOW + "No team";
+			} else {
+				teamName = color + "Team " + ((MCFTeam) team).getTeamNumber();
+			}
+
+			NetherBoardScoreboard.getInstance().setPlayerLine(1, player, teamName);
+		}
+	}
+
+	public boolean requireTeamToJoin(Player player) {
+		return true;
+	}
+
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onPlayerJoin(PlayerJoinEvent e) {
+		Player player = e.getPlayer();
+
+		updatePlayerName(player);
+	}
+}

@@ -8,3 +8,23 @@ mysql:
 
 # Name of the server in the bungeecord configuration
 server_name: null
+
+# Score settings
+
+# Added on kill
+kill_score_enabled: false
+kill_score: 20
+
+# Added on player placement
+win_score_enabled: false
+win_score: [100, 80, 60]
+
+# Added when another player is eliminated
+participation_score_enabled: false
+participation_score: 2
+
+# Head drops
+enable_head_drops: true
+
+# Edible heads
+enable_edible_heads: true
