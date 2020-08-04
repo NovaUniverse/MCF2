@@ -1,4 +1,7 @@
-# MySQL server
+# =============================
+# -=-=-=  MySQL Settings =-=-=-
+# =============================
+# MySQL Database
 mysql:
     driver: com.mysql.jdbc.Driver
     host: jdbc:mysql://localhost
@@ -6,10 +9,19 @@ mysql:
     password: root
     database: mcf
 
+# =================================
+# -=-=-= Bungeecord settings =-=-=-
+# =================================
+
 # Name of the server in the bungeecord configuration
 server_name: null
 
-# Score settings
+# Name of the lobby server in the bungeecord configuration
+lobby_server: lobby
+
+# =============================
+# -=-=-=  Score settings =-=-=-
+# =============================
 
 # Added on kill
 kill_score_enabled: false
@@ -23,8 +35,49 @@ win_score: [100, 80, 60]
 participation_score_enabled: false
 participation_score: 2
 
+# ==================================
+# -=-=-= Player head settings =-=-=-
+# ==================================
+
 # Head drops
 enable_head_drops: true
 
 # Edible heads
 enable_edible_heads: true
+
+# ============================
+# -=-=-= Lobby settings =-=-=-
+# ============================
+
+lobby_enabled: false
+
+# Spawn location
+spawn_x: 0.5
+spawn_y: 10.0
+spawn_z: 0.5
+
+spawn_yaw: 0
+spawn_pitch: 0
+
+# KOTL
+kotl_x: 25
+kotl_z: 11
+
+kotl_radius: 5
+
+# Lobby leaderboard
+lobby_player_leaderboard:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+
+lobby_team_leaderboard:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+
+# ===========================
+# -=-=-= Game settings =-=-=-
+# ===========================
+
+game_enabled: false

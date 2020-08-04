@@ -12,35 +12,41 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.meta.FireworkMeta;
 
+import xyz.mcfridays.base.MCF;
 import xyz.zeeraa.novacore.NovaCore;
 import xyz.zeeraa.novacore.callbacks.Callback;
 import xyz.zeeraa.novacore.log.Log;
 import xyz.zeeraa.novacore.module.modules.game.MapGame;
-import xyz.zeeraa.novacore.module.modules.game.PlayerQuitEliminationAction;
+import xyz.zeeraa.novacore.module.modules.game.elimination.PlayerQuitEliminationAction;
 import xyz.zeeraa.novacore.teams.Team;
 import xyz.zeeraa.novacore.timers.BasicTimer;
 import xyz.zeeraa.novacore.timers.TickCallback;
 import xyz.zeeraa.novacore.utils.PlayerUtils;
+import xyz.zeeraa.novacore.utils.RandomGenerator;
 
 public class Hungergames extends MapGame implements Listener {
 	private boolean started;
+	private boolean ended;
 
 	private final boolean randomStartLocation = false;
 	private final int countdownTime = 20;
 
 	private HashMap<UUID, Location> usedStartLocation;
-
+	
 	private boolean countdownOver;
 
 	public Hungergames() {
 		super();
 
 		this.started = false;
+		this.ended = false;
 
 		this.countdownOver = false;
 
@@ -70,10 +76,20 @@ public class Hungergames extends MapGame implements Listener {
 	public boolean isPVPEnabled() {
 		return countdownOver;
 	}
+	
+	@Override
+	public boolean autoEndGame() {
+		return true;
+	}
 
 	@Override
 	public boolean hasStarted() {
 		return started;
+	}
+	
+	@Override
+	public boolean hasEnded() {
+		return ended;
 	}
 
 	@Override
@@ -114,7 +130,6 @@ public class Hungergames extends MapGame implements Listener {
 		location.clone().add(0, 2, 0).getBlock().setType(material);
 	}
 
-	@EventHandler
 	public void tpToSpectator(Player player) {
 		NovaCore.getInstance().getVersionIndependentUtils().resetEntityMaxHealth(player);
 		player.setHealth(20);
@@ -165,7 +180,32 @@ public class Hungergames extends MapGame implements Listener {
 
 	@Override
 	public void onEnd() {
+		try {
+			MCF.getInstance().setServerAsActive(false);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		ended = true;
 
+		for (Location location : getActiveMap().getStarterLocations()) {
+			Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+			FireworkMeta fwm = fw.getFireworkMeta();
+
+			fwm.setPower(2);
+			fwm.addEffect(RandomGenerator.randomFireworkEffect());
+
+			fw.setFireworkMeta(fwm);
+		}
+
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			p.setHealth(p.getMaxHealth());
+			p.setFoodLevel(20);
+			PlayerUtils.clearPlayerInventory(p);
+			PlayerUtils.resetPlayerXP(p);
+			p.setGameMode(GameMode.SPECTATOR);
+			p.playSound(p.getLocation(), Sound.WITHER_DEATH, 1F, 1F);
+		}
 	}
 
 	@Override
@@ -223,7 +263,7 @@ public class Hungergames extends MapGame implements Listener {
 			@Override
 			public void execute() {
 				countdownOver = true;
-				Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "May the odds be ever in your favor");
+				Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "May the odds be ever in your favour");
 
 				setCages(false);
 

@@ -2,6 +2,7 @@ package xyz.mcfridays.base.team;
 
 import org.bukkit.ChatColor;
 
+import xyz.mcfridays.base.misc.MCFPlayerNameCache;
 import xyz.zeeraa.novacore.teams.Team;
 
 public class MCFTeam extends Team {
@@ -23,6 +24,16 @@ public class MCFTeam extends Team {
 	
 	public void setScore(int score) {
 		this.score = score;
+	}
+	
+	public String getMemberString() {
+		String result = "";
+
+		for (int i = members.size(); i > 0; i--) {
+			result += MCFPlayerNameCache.getInstance().getPlayerName(members.get(i - 1)) + (i == 1 ? "" : (i == 2 ? " and " : ", "));
+		}
+
+		return result;
 	}
 
 	@Override

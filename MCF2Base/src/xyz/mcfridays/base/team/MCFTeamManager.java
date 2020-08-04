@@ -2,6 +2,7 @@ package xyz.mcfridays.base.team;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -25,10 +26,10 @@ public class MCFTeamManager extends TeamManager implements Listener {
 	public static MCFTeamManager getInstance() {
 		return instance;
 	}
-	
+
 	public MCFTeamManager() {
 		MCFTeamManager.instance = this;
-		
+
 		for (int i = 0; i < TEAM_COUNT; i++) {
 			MCFTeam team = new MCFTeam(i + 1, 0);
 
@@ -44,6 +45,45 @@ public class MCFTeamManager extends TeamManager implements Listener {
 				updateTeams();
 			}
 		}, 100L, 100L);
+
+		ArrayList<Integer> missingTeams = new ArrayList<Integer>();
+
+		for (int i = 0; i < TEAM_COUNT; i++) {
+			missingTeams.add((Integer) i + 1);
+		}
+
+		try {
+			String sql = "SELECT team_number FROM teams";
+			PreparedStatement ps = MCF.getDBConnection().getConnection().prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int teamNumber = rs.getInt("team_number");
+				if (missingTeams.contains((Integer) teamNumber)) {
+					missingTeams.remove((Integer) teamNumber);
+				}
+			}
+
+			rs.close();
+			ps.close();
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		}
+
+		for (Integer i : missingTeams) {
+			try {
+				String sql = "INSERT INTO teams (team_number) VALUES (?)";
+				PreparedStatement ps = MCF.getDBConnection().getConnection().prepareStatement(sql);
+
+				ps.setInt(1, i);
+
+				ps.execute();
+
+				ps.close();
+			} catch (Exception ee) {
+				ee.printStackTrace();
+			}
+		}
 	}
 
 	private void updateTeams() {
@@ -61,10 +101,14 @@ public class MCFTeamManager extends TeamManager implements Listener {
 					if (teamNumber <= 0) {
 						if (team.getMembers().contains(uuid)) {
 							team.getMembers().remove(uuid);
+							Log.trace("MCFTeamManager", "Removing player with uuid " + uuid.toString() + " from team " + ((MCFTeam) team).getTeamNumber());
 						}
 					} else {
 						if (teamNumber == ((MCFTeam) team).getTeamNumber()) {
-							team.getMembers().add(uuid);
+							if (!team.getMembers().contains(uuid)) {
+								team.getMembers().add(uuid);
+								Log.trace("MCFTeamManager", "Adding player with uuid " + uuid.toString() + " from team " + ((MCFTeam) team).getTeamNumber());
+							}
 						}
 					}
 				}
@@ -77,7 +121,7 @@ public class MCFTeamManager extends TeamManager implements Listener {
 			Log.warn("MCFTeamManager", "Failed to update teams");
 			return;
 		}
-		
+
 		// Update score
 		try {
 			String sql = "SELECT score, team_number FROM teams";
@@ -86,8 +130,8 @@ public class MCFTeamManager extends TeamManager implements Listener {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				MCFTeam team = getTeam(rs.getInt("team_number"));
-				
-				if(team != null) {
+
+				if (team != null) {
 					team.setScore(rs.getInt("score"));
 				}
 			}

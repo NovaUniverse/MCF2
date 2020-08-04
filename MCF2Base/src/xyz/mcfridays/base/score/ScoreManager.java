@@ -90,6 +90,10 @@ public class ScoreManager extends NovaModule implements Listener {
 		return score;
 	}
 
+	public HashMap<UUID, Integer> getPlayerScoreCache() {
+		return playerScoreCache;
+	}
+	
 	public int getPlayerScore(OfflinePlayer player) {
 		return getPlayerScore(player.getUniqueId());
 	}

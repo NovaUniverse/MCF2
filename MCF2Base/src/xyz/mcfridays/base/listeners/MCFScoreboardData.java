@@ -9,6 +9,7 @@ import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.team.MCFTeam;
 import xyz.mcfridays.base.team.MCFTeamManager;
+import xyz.zeeraa.novacore.NovaCore;
 import xyz.zeeraa.novacore.module.NovaModule;
 import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
 
@@ -45,8 +46,14 @@ public class MCFScoreboardData extends NovaModule implements Listener {
 						NetherBoardScoreboard.getInstance().setPlayerLine(2, player, ChatColor.GOLD + "Score: " + ChatColor.AQUA + playerScore);
 						NetherBoardScoreboard.getInstance().setPlayerLine(3, player, ChatColor.GOLD + "Team score: " + ChatColor.AQUA + teamScore);
 					}
+					double[] recentTps = NovaCore.getInstance().getVersionIndependentUtils().getRecentTps();
+
+					if (recentTps.length > 0) {
+						double tps = recentTps[0];
+						NetherBoardScoreboard.getInstance().setGlobalLine(13, ChatColor.GOLD + "Average TPS 1m: " + formatTps(tps));
+					}
 				}
-			}, 20L, 20L);
+			}, 10L, 10L);
 		}
 	}
 
@@ -56,5 +63,9 @@ public class MCFScoreboardData extends NovaModule implements Listener {
 			Bukkit.getScheduler().cancelTask(taskId);
 			taskId = -1;
 		}
+	}
+
+	private String formatTps(double tps) {
+		return ((tps > 18.0) ? ChatColor.GREEN : (tps > 16.0) ? ChatColor.YELLOW : ChatColor.RED).toString() + ((tps > 20.0) ? "*" : "") + Math.min(Math.round(tps * 100.0) / 100.0, 20.0);
 	}
 }

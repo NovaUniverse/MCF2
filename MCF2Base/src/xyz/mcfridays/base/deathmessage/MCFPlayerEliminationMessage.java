@@ -7,13 +7,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 
 import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.module.modules.game.PlayerEliminationMessage;
-import xyz.zeeraa.novacore.module.modules.game.PlayerEliminationReason;
+import xyz.zeeraa.novacore.module.modules.game.elimination.PlayerEliminationReason;
+import xyz.zeeraa.novacore.module.modules.game.eliminationmessage.PlayerEliminationMessage;
 import xyz.zeeraa.novacore.teams.Team;
 
 public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 	@Override
-	public void showPlayerEliminatedMessage(OfflinePlayer player, Entity killer, PlayerEliminationReason reason) {
+	public void showPlayerEliminatedMessage(OfflinePlayer player, Entity killer, PlayerEliminationReason reason, int placement) {
 		ChatColor playerColor = ChatColor.AQUA;
 
 		String extra = "";
@@ -65,9 +65,6 @@ public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 			}
 			break;
 
-		case OTHER:
-			extra += "went out to buy some milk but never returned";
-			break;
 		default:
 			extra += "went out to buy some milk but never returned";
 			break;
