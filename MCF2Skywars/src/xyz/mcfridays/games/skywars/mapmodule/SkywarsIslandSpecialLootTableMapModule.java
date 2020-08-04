@@ -1,8 +1,10 @@
 package xyz.mcfridays.games.skywars.mapmodule;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.json.JSONObject;
 
@@ -11,6 +13,7 @@ import xyz.zeeraa.novacore.log.Log;
 import xyz.zeeraa.novacore.loottable.LootTable;
 import xyz.zeeraa.novacore.module.modules.chestloot.ChestType;
 import xyz.zeeraa.novacore.module.modules.chestloot.events.ChestFillEvent;
+import xyz.zeeraa.novacore.module.modules.game.Game;
 import xyz.zeeraa.novacore.module.modules.game.GameManager;
 import xyz.zeeraa.novacore.module.modules.game.MapGame;
 import xyz.zeeraa.novacore.module.modules.game.map.mapmodule.MapModule;
@@ -28,7 +31,16 @@ public class SkywarsIslandSpecialLootTableMapModule extends MapModule implements
 		if (islandLootTable == null) {
 			Log.fatal("Could not find loot table named " + json.getString("loot_table"));
 		}
+	}
 
+	@Override
+	public void onGameStart(Game game) {
+		Bukkit.getServer().getPluginManager().registerEvents(this, NovaCore.getInstance());
+	}
+
+	@Override
+	public void onGameEnd(Game game) {
+		HandlerList.unregisterAll(this);
 	}
 
 	public int getIslandRadius() {
@@ -52,6 +64,7 @@ public class SkywarsIslandSpecialLootTableMapModule extends MapModule implements
 
 					l2.setY(location.getY());
 
+					// Log.trace("Distance: " + location.distance(l2) + " radius: " + islandRadius);
 					if (location.distance(l2) <= islandRadius) {
 						Log.trace("Replacing loot table for chest on island with " + getIslandLootTable().getName());
 						e.setLootTable(getIslandLootTable());

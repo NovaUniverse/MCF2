@@ -44,11 +44,16 @@ public class SkywarsLootLoader implements LootTableLoader {
 	private static SkywarsLootEntry readLootEntry(JSONObject itemJson) {
 		ItemStack item;
 
+		Material material = Material.getMaterial(itemJson.getString("material"));
+		if(material == null) {
+			Log.fatal("No material found with the name " + itemJson.getString("material"));
+		}
+		
 		if (itemJson.has("data")) {
 			short itemData = (short) itemJson.getInt("data");
-			item = new ItemStack(Material.getMaterial(itemJson.getString("material")), 1, itemData);
+			item = new ItemStack(material, 1, itemData);
 		} else {
-			item = new ItemStack(Material.getMaterial(itemJson.getString("material")), 1);
+			item = new ItemStack(material, 1);
 		}
 
 		if (itemJson.has("display_name")) {
@@ -149,7 +154,7 @@ public class SkywarsLootLoader implements LootTableLoader {
 	public LootTable read(JSONObject json) {
 		try {
 			Log.info("reading loot table named " + json.getString("name"));
-			
+
 			String lootTableName = json.getString("name");
 			String lootTableDisplayName;
 
@@ -164,6 +169,7 @@ public class SkywarsLootLoader implements LootTableLoader {
 			ArrayList<SkywarsLootGroup> lootGroups = new ArrayList<SkywarsLootGroup>();
 
 			for (String key : groups.keySet()) {
+				Log.trace("loot group: " + key);
 				JSONObject group = groups.getJSONObject(key);
 
 				ArrayList<SkywarsLootEntry> entries = new ArrayList<SkywarsLootEntry>();
@@ -171,10 +177,15 @@ public class SkywarsLootLoader implements LootTableLoader {
 				JSONArray items = group.getJSONArray("items");
 
 				for (int i = 0; i < items.length(); i++) {
-					SkywarsLootEntry entry = readLootEntry(items.getJSONObject(i));
+					try {
+						SkywarsLootEntry entry = readLootEntry(items.getJSONObject(i));
 
-					for (int j = 0; j < entry.getChance(); j++) {
-						entries.add(entry);
+						for (int j = 0; j < entry.getChance(); j++) {
+							entries.add(entry);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						Log.error("Failed to read a item from the loot table " + json.getString("name") + " JSON: \n" + items.getJSONObject(i).toString(4));
 					}
 				}
 

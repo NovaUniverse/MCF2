@@ -2,6 +2,9 @@ package xyz.mcfridays.base.listeners;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,10 +12,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.mcfridays.base.MCF;
 
 public class PlayerListener implements Listener {
+	private List<UUID> hideQuitMessage;
+	
+	public PlayerListener() {
+		this.hideQuitMessage = new ArrayList<UUID>();
+	}
+	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
@@ -72,7 +82,19 @@ public class PlayerListener implements Listener {
 		}
 		
 		if(!playerFound) {
+			e.setJoinMessage(null);
+			hideQuitMessage.add(p.getUniqueId());
 			p.kickPlayer(ChatColor.AQUA + "You need to reconnect since this is the first time joining the MCF server");
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent e) {
+		Player p = e.getPlayer();
+		if(hideQuitMessage.contains(p.getUniqueId())) {
+			hideQuitMessage.remove(p.getUniqueId());
+			
+			e.setQuitMessage(null);
 		}
 	}
 }

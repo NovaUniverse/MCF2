@@ -7,16 +7,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.util.Vector;
 
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.score.ScoreManager;
@@ -29,6 +37,7 @@ import xyz.zeeraa.novacore.module.modules.multiverse.MultiverseWorld;
 import xyz.zeeraa.novacore.module.modules.multiverse.WorldUnloadOption;
 import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
 import xyz.zeeraa.novacore.teams.Team;
+import xyz.zeeraa.novacore.utils.ItemBuilder;
 import xyz.zeeraa.novacore.utils.PlayerUtils;
 
 public class MCFLobby extends NovaModule implements Listener {
@@ -201,6 +210,59 @@ public class MCFLobby extends NovaModule implements Listener {
 		if (player.getWorld() == lobbyLocation.getWorld()) {
 			if (player.getGameMode() != GameMode.CREATIVE) {
 				e.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onPlayerInteract(PlayerInteractEvent e) {
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (e.getClickedBlock().getType() == Material.SIGN_POST || e.getClickedBlock().getType() == Material.WALL_SIGN) {
+				if (e.getPlayer().getGameMode() != GameMode.SPECTATOR) {
+					if (e.getClickedBlock().getState() instanceof Sign) {
+						Sign sign = (Sign) e.getClickedBlock().getState();
+						if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[Free]") && ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("Fishing rod")) {
+							Player p = e.getPlayer();
+							
+							if(!p.getInventory().contains(Material.FISHING_ROD)) {
+								p.getInventory().addItem(new ItemBuilder(Material.FISHING_ROD).setUnbreakable(true).build());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onSignChange(SignChangeEvent e) {
+		if (e.getLine(0).equalsIgnoreCase("[free rod]")) {
+			e.setLine(0, ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "[Free]");
+			e.setLine(1, ChatColor.BLUE + "Fishing rod");
+			e.setLine(2, "");
+			e.setLine(3, "");
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onAsyncPlayerChat(AsyncPlayerChatEvent e) {
+		if (e.getMessage().equalsIgnoreCase("fus ro dah")) {
+			Player player = e.getPlayer();
+			if (player.getUniqueId().toString().equalsIgnoreCase("8ec663e7-9a3d-4014-9bc6-a6915e629a56") || player.getUniqueId().toString().equalsIgnoreCase("980dbf7d-0904-426f-9c02-d9af3c099fb2")) {
+				player.getLocation().getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1, 1);
+				for (Player player2 : Bukkit.getServer().getOnlinePlayers()) {
+					Vector toPlayer2 = player2.getLocation().toVector().subtract(player.getLocation().toVector());
+
+					Vector direction = player.getLocation().getDirection();
+
+					double dot = toPlayer2.normalize().dot(direction);
+
+					if (player.getLocation().distance(player2.getLocation()) < 12) {
+						if (dot > 0.90) {
+							player2.setVelocity(direction.multiply(4 - (player.getLocation().distance(player2.getLocation()) / 4)));
+						}
+					}
+				}
 			}
 		}
 	}

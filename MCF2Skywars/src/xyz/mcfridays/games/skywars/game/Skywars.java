@@ -9,6 +9,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +20,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.team.MCFTeam;
@@ -29,6 +32,7 @@ import xyz.zeeraa.novacore.module.modules.game.elimination.PlayerQuitElimination
 import xyz.zeeraa.novacore.timers.BasicTimer;
 import xyz.zeeraa.novacore.timers.TickCallback;
 import xyz.zeeraa.novacore.utils.PlayerUtils;
+import xyz.zeeraa.novacore.utils.RandomGenerator;
 
 public class Skywars extends MapGame implements Listener {
 	private boolean started;
@@ -104,6 +108,17 @@ public class Skywars extends MapGame implements Listener {
 
 	@Override
 	public void onStart() {
+		if (started) {
+			return;
+		}
+		started = true;
+
+		try {
+			MCF.getInstance().setServerAsActive(true);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 		setCages(true);
 
 		Collections.shuffle(getActiveMap().getStarterLocations());
@@ -176,7 +191,36 @@ public class Skywars extends MapGame implements Listener {
 
 	@Override
 	public void onEnd() {
-		// TODO:
+		if (ended) {
+			return;
+		}
+
+		try {
+			MCF.getInstance().setServerAsActive(false);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		ended = true;
+
+		for (Location location : getActiveMap().getStarterLocations()) {
+			Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+			FireworkMeta fwm = fw.getFireworkMeta();
+
+			fwm.setPower(2);
+			fwm.addEffect(RandomGenerator.randomFireworkEffect());
+
+			fw.setFireworkMeta(fwm);
+		}
+
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			p.setHealth(p.getMaxHealth());
+			p.setFoodLevel(20);
+			PlayerUtils.clearPlayerInventory(p);
+			PlayerUtils.resetPlayerXP(p);
+			p.setGameMode(GameMode.SPECTATOR);
+			p.playSound(p.getLocation(), Sound.WITHER_DEATH, 1F, 1F);
+		}
 	}
 
 	public void setCages(boolean state) {
@@ -272,7 +316,7 @@ public class Skywars extends MapGame implements Listener {
 		}, 5L);
 
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {

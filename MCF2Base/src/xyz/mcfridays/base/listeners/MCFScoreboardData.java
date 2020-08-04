@@ -50,7 +50,7 @@ public class MCFScoreboardData extends NovaModule implements Listener {
 
 					if (recentTps.length > 0) {
 						double tps = recentTps[0];
-						NetherBoardScoreboard.getInstance().setGlobalLine(13, ChatColor.GOLD + "Average TPS 1m: " + formatTps(tps));
+						NetherBoardScoreboard.getInstance().setGlobalLine(13, ChatColor.GOLD + "Average TPS: " + formatTps(tps));
 					}
 				}
 			}, 10L, 10L);
