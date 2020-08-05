@@ -3,3 +3,4 @@ main: xyz.mcfridays.base.MCF
 description: MCF Core plugin
 version: 1.0
 depend: [NovaCore, HolographicDisplays]
+softdepend: [Citizens]

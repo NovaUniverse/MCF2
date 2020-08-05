@@ -19,9 +19,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.trait.TraitInfo;
 import xyz.mcfridays.base.crafting.EnchantedGoldenAppleRecipe;
+import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
 import xyz.mcfridays.base.deathmessage.MCFTeamEliminationMessage;
+import xyz.mcfridays.base.kills.KillListener;
+import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.leaderboard.MCFLeaderboard;
 import xyz.mcfridays.base.listeners.EdibleHeads;
 import xyz.mcfridays.base.listeners.MCFScoreboardData;
@@ -30,12 +35,17 @@ import xyz.mcfridays.base.listeners.PlayerHeadDrop;
 import xyz.mcfridays.base.listeners.PlayerListener;
 import xyz.mcfridays.base.listeners.ScoreListener;
 import xyz.mcfridays.base.lobby.MCFLobby;
+import xyz.mcfridays.base.lobby.duels.DuelsManager;
+import xyz.mcfridays.base.lobby.duels.command.AcceptDuelCommand;
+import xyz.mcfridays.base.lobby.duels.command.DuelCommand;
+import xyz.mcfridays.base.lobby.npc.trait.MerchantTrait;
 import xyz.mcfridays.base.misc.MCFPlayerNameCache;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.team.MCFTeam;
 import xyz.mcfridays.base.team.MCFTeamManager;
 import xyz.mcfridays.base.tracker.MCFCompassTraker;
 import xyz.zeeraa.novacore.NovaCore;
+import xyz.zeeraa.novacore.command.CommandRegistry;
 import xyz.zeeraa.novacore.customcrafting.CustomCraftingManager;
 import xyz.zeeraa.novacore.database.DBConnection;
 import xyz.zeeraa.novacore.database.DBCredentials;
@@ -48,6 +58,7 @@ import xyz.zeeraa.novacore.module.modules.game.events.GameLoadedEvent;
 import xyz.zeeraa.novacore.module.modules.game.events.PlayerWinEvent;
 import xyz.zeeraa.novacore.module.modules.game.events.TeamWinEvent;
 import xyz.zeeraa.novacore.module.modules.gamelobby.GameLobby;
+import xyz.zeeraa.novacore.module.modules.gui.GUIManager;
 import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
 import xyz.zeeraa.novacore.teams.Team;
 import xyz.zeeraa.novacore.utils.BungeecordUtils;
@@ -90,15 +101,15 @@ public class MCF extends JavaPlugin implements Listener {
 	public String getLobbyServer() {
 		return lobbyServer;
 	}
-
-	public void setServerAsActive(boolean active) {
-		// TODO: Boring database stuff
-	}
 	
 	public ArrayList<Plugin> getRelatedPlugins() {
 		return relatedPlugins;
 	}
 
+	public void setServerAsActive(boolean active) {
+		MCFDB.setActiveServer(active ? getServerName() : null);
+	}
+	
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
@@ -166,9 +177,12 @@ public class MCF extends JavaPlugin implements Listener {
 		}
 
 		ModuleManager.loadModule(ScoreManager.class, true);
+		ModuleManager.loadModule(KillListener.class, true);
 		ModuleManager.loadModule(MCFLeaderboard.class, true);
 		ModuleManager.loadModule(MCFScoreboardData.class, true);
 		ModuleManager.loadModule(MCFPlayerNameCache.class, true);
+		ModuleManager.loadModule(MCFPlayerKillCache.class, true);
+		
 		ModuleManager.loadModule(MCFLobby.class);
 
 		teamManager = new MCFTeamManager();
@@ -212,6 +226,15 @@ public class MCF extends JavaPlugin implements Listener {
 			
 			MCFLeaderboard.getInstance().setPlayerHologramLocation(new Location(MCFLobby.getInstance().getWorld(), playerLeaderboard.getDouble("x"), playerLeaderboard.getDouble("y"), playerLeaderboard.getDouble("z")));
 			MCFLeaderboard.getInstance().setTeamHologramLocation(new Location(MCFLobby.getInstance().getWorld(), teamLeaderboard.getDouble("x"), teamLeaderboard.getDouble("y"), teamLeaderboard.getDouble("z")));
+			
+			ModuleManager.require(GUIManager.class);
+			
+			CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(MerchantTrait.class).withName("MerchantTrait"));
+			
+			ModuleManager.loadModule(DuelsManager.class, true);
+			CommandRegistry.registerCommand(new AcceptDuelCommand());
+			CommandRegistry.registerCommand(new DuelCommand());
+			
 		} else if (getConfig().getBoolean("game_enabled")) {
 			scoreListener = new ScoreListener(getConfig().getBoolean("kill_score_enabled"), getConfig().getInt("kill_score"), getConfig().getBoolean("win_score_enabled"), winScore, getConfig().getBoolean("participation_score_enabled"), getConfig().getInt("participation_score"));
 
