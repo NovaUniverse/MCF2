@@ -29,7 +29,6 @@ import xyz.mcfridays.base.kills.KillListener;
 import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.leaderboard.MCFLeaderboard;
 import xyz.mcfridays.base.listeners.EdibleHeads;
-import xyz.mcfridays.base.listeners.MCFScoreboardData;
 import xyz.mcfridays.base.listeners.NoEnderPearlDamage;
 import xyz.mcfridays.base.listeners.PlayerHeadDrop;
 import xyz.mcfridays.base.listeners.PlayerListener;
@@ -41,6 +40,7 @@ import xyz.mcfridays.base.lobby.duels.command.DuelCommand;
 import xyz.mcfridays.base.lobby.npc.trait.MerchantTrait;
 import xyz.mcfridays.base.misc.MCFPlayerNameCache;
 import xyz.mcfridays.base.score.ScoreManager;
+import xyz.mcfridays.base.scoreboard.MCFScoreboard;
 import xyz.mcfridays.base.team.MCFTeam;
 import xyz.mcfridays.base.team.MCFTeamManager;
 import xyz.mcfridays.base.tracker.MCFCompassTraker;
@@ -179,7 +179,7 @@ public class MCF extends JavaPlugin implements Listener {
 		ModuleManager.loadModule(ScoreManager.class, true);
 		ModuleManager.loadModule(KillListener.class, true);
 		ModuleManager.loadModule(MCFLeaderboard.class, true);
-		ModuleManager.loadModule(MCFScoreboardData.class, true);
+		ModuleManager.loadModule(MCFScoreboard.class, true);
 		ModuleManager.loadModule(MCFPlayerNameCache.class, true);
 		ModuleManager.loadModule(MCFPlayerKillCache.class, true);
 		

@@ -1,4 +1,4 @@
-package xyz.mcfridays.base.listeners;
+package xyz.mcfridays.base.scoreboard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,13 +13,14 @@ import xyz.mcfridays.base.team.MCFTeamManager;
 import xyz.zeeraa.novacore.NovaCore;
 import xyz.zeeraa.novacore.module.NovaModule;
 import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
+import xyz.zeeraa.novacore.utils.TextUtils;
 
-public class MCFScoreboardData extends NovaModule implements Listener {
+public class MCFScoreboard extends NovaModule implements Listener {
 	private int taskId;
 
 	@Override
 	public String getName() {
-		return "MCFScoreboardData";
+		return "MCFScoreboard";
 	}
 
 	@Override
@@ -47,12 +48,17 @@ public class MCFScoreboardData extends NovaModule implements Listener {
 						NetherBoardScoreboard.getInstance().setPlayerLine(2, player, ChatColor.GOLD + "Score: " + ChatColor.AQUA + playerScore);
 						NetherBoardScoreboard.getInstance().setPlayerLine(3, player, ChatColor.GOLD + "Kills: " + ChatColor.AQUA + MCFPlayerKillCache.getInstance().getPlayerKills(player.getUniqueId()));
 						NetherBoardScoreboard.getInstance().setPlayerLine(4, player, ChatColor.GOLD + "Team score: " + ChatColor.AQUA + teamScore);
+
+						int ping = NovaCore.getInstance().getVersionIndependentUtils().getPlayerPing(player);
+
+						NetherBoardScoreboard.getInstance().setPlayerLine(12, player, ChatColor.GOLD + "Your ping: " + formatPing(ping) + "ms " + (ping > 800 ? ChatColor.YELLOW + TextUtils.ICON_WARNING : ""));
 					}
+
 					double[] recentTps = NovaCore.getInstance().getVersionIndependentUtils().getRecentTps();
 
 					if (recentTps.length > 0) {
 						double tps = recentTps[0];
-						NetherBoardScoreboard.getInstance().setGlobalLine(13, ChatColor.GOLD + "Average TPS: " + formatTps(tps));
+						NetherBoardScoreboard.getInstance().setGlobalLine(13, ChatColor.GOLD + "Average TPS: " + formatTps(tps) + (tps < 18 ? " " + ChatColor.RED + TextUtils.ICON_WARNING : ""));
 					}
 				}
 			}, 10L, 10L);
@@ -65,6 +71,22 @@ public class MCFScoreboardData extends NovaModule implements Listener {
 			Bukkit.getScheduler().cancelTask(taskId);
 			taskId = -1;
 		}
+	}
+
+	private String formatPing(int ping) {
+		ChatColor color = ChatColor.DARK_RED;
+
+		if (ping < 200) {
+			color = ChatColor.GREEN;
+		} else if (ping < 400) {
+			color = ChatColor.DARK_GREEN;
+		} else if (ping < 600) {
+			color = ChatColor.YELLOW;
+		} else if (ping < 800) {
+			color = ChatColor.RED;
+		}
+
+		return color + "" + ping;
 	}
 
 	private String formatTps(double tps) {

@@ -3,6 +3,7 @@ package xyz.mcfridays.base.team;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.mcfridays.base.MCF;
 import xyz.zeeraa.novacore.log.Log;
@@ -23,12 +25,16 @@ public class MCFTeamManager extends TeamManager implements Listener {
 	public static final int TEAM_COUNT = 12;
 	private static MCFTeamManager instance;
 
+	private HashMap<UUID, ChatColor> playerColorCache;
+
 	public static MCFTeamManager getInstance() {
 		return instance;
 	}
 
 	public MCFTeamManager() {
 		MCFTeamManager.instance = this;
+
+		playerColorCache = new HashMap<UUID, ChatColor>();
 
 		for (int i = 0; i < TEAM_COUNT; i++) {
 			MCFTeam team = new MCFTeam(i + 1, 0);
@@ -43,6 +49,30 @@ public class MCFTeamManager extends TeamManager implements Listener {
 			@Override
 			public void run() {
 				updateTeams();
+
+				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+					Team team = getPlayerTeam(player);
+
+					if (team == null) {
+						if (playerColorCache.containsKey(player.getUniqueId())) {
+							Log.trace("Removing team color for player " + player.getName());
+							playerColorCache.remove(player.getUniqueId());
+							NetherBoardScoreboard.getInstance().resetPlayerNameColor(player);
+						}
+					} else {
+						if (playerColorCache.containsKey(player.getUniqueId())) {
+							if (team.getTeamColor() != playerColorCache.get(player.getUniqueId())) {
+								Log.trace("Changing team color for player " + player.getName());
+								playerColorCache.put(player.getUniqueId(), team.getTeamColor());
+								NetherBoardScoreboard.getInstance().setPlayerNameColor(player, team.getTeamColor());
+							}
+						} else {
+							Log.trace("Setting team color for player " + player.getName());
+							playerColorCache.put(player.getUniqueId(), team.getTeamColor());
+							NetherBoardScoreboard.getInstance().setPlayerNameColor(player, team.getTeamColor());
+						}
+					}
+				}
 			}
 		}, 100L, 100L);
 
@@ -98,7 +128,7 @@ public class MCFTeamManager extends TeamManager implements Listener {
 				int teamNumber = rs.getInt("team_number");
 
 				for (Team team : teams) {
-					if (teamNumber <= 0) {
+					if (teamNumber <= 0 || ((MCFTeam) team).getTeamNumber() != teamNumber) {
 						if (team.getMembers().contains(uuid)) {
 							team.getMembers().remove(uuid);
 							Log.trace("MCFTeamManager", "Removing player with uuid " + uuid.toString() + " from team " + ((MCFTeam) team).getTeamNumber());
@@ -107,7 +137,7 @@ public class MCFTeamManager extends TeamManager implements Listener {
 						if (teamNumber == ((MCFTeam) team).getTeamNumber()) {
 							if (!team.getMembers().contains(uuid)) {
 								team.getMembers().add(uuid);
-								Log.trace("MCFTeamManager", "Adding player with uuid " + uuid.toString() + " from team " + ((MCFTeam) team).getTeamNumber());
+								Log.trace("MCFTeamManager", "Adding player with uuid " + uuid.toString() + " to team " + ((MCFTeam) team).getTeamNumber());
 							}
 						}
 					}
@@ -200,5 +230,12 @@ public class MCFTeamManager extends TeamManager implements Listener {
 		Player player = e.getPlayer();
 
 		updatePlayerName(player);
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onPlayerQuit(PlayerQuitEvent e) {
+		if (playerColorCache.containsKey(e.getPlayer().getUniqueId())) {
+			playerColorCache.remove(e.getPlayer().getUniqueId());
+		}
 	}
 }
