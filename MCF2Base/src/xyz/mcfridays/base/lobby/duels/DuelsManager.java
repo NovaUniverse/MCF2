@@ -89,6 +89,7 @@ public class DuelsManager extends NovaModule implements Listener {
 										duelInstance.getWorld().getWorld().strikeLightning(player.getLocation());
 										duelInstance.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Player Eliminated> " + ChatColor.AQUA + ChatColor.BOLD + player.getName() + ChatColor.RED + "" + ChatColor.BOLD + " died");
 										duelInstance.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Game Over> Winner: " + ChatColor.AQUA + ChatColor.BOLD + (otherPlayer != null ? otherPlayer.getName() : "null"));
+										Bukkit.getServer().broadcastMessage(ChatColor.AQUA + (otherPlayer != null ? otherPlayer.getName() : "null") + ChatColor.GOLD + " won a duel against " + ChatColor.AQUA + player.getName());
 										duelInstance.setStage(DuelStage.ENDED);
 									}
 								}
@@ -205,9 +206,9 @@ public class DuelsManager extends NovaModule implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent e) {
 		Player player = (Player) e.getPlayer();
 
-		//TODO: End game if a player quits
-		for(DuelInstance di : duelInstances) {
-			if(di.getPlayers().contains(player)) {
+		// TODO: End game if a player quits
+		for (DuelInstance di : duelInstances) {
+			if (di.getPlayers().contains(player)) {
 				di.onPlayerQuit(player);
 				break;
 			}
@@ -325,7 +326,7 @@ public class DuelsManager extends NovaModule implements Listener {
 				} else {
 					if (duel(targetPlayer, player)) {
 						invites.remove(inviteUuid);
-						
+
 						// Success
 						return InviteResult.OK;
 					}

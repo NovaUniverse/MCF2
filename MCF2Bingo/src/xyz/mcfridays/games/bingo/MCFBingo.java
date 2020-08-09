@@ -1,0 +1,52 @@
+package xyz.mcfridays.games.bingo;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import xyz.mcfridays.games.bingo.game.Bingo;
+import xyz.zeeraa.novacore.module.ModuleManager;
+import xyz.zeeraa.novacore.module.modules.game.GameManager;
+import xyz.zeeraa.novacore.module.modules.gamelobby.GameLobby;
+
+public class MCFBingo extends JavaPlugin implements Listener {
+	// --- Global instance ---
+	private static MCFBingo instance;
+	
+	public static MCFBingo getInstance() {
+		return instance;
+	}
+	
+	// --- Begin plugin code ---
+	private Bingo game;
+	
+	public Bingo getGame() {
+		return game;
+	}
+	
+	@Override
+	public void onEnable() {
+		MCFBingo.instance = this;
+
+		// Enable required modules
+		ModuleManager.enable(GameManager.class);
+		ModuleManager.enable(GameLobby.class);
+
+
+		// Init game and maps
+		this.game = new Bingo();
+
+		GameManager.getInstance().loadGame(game);
+
+		// Register events
+		Bukkit.getServer().getPluginManager().registerEvents(this, this);
+	}
+
+	@Override
+	public void onDisable() {
+		Bukkit.getScheduler().cancelTasks(this);
+		HandlerList.unregisterAll((Plugin) this);
+	}
+}

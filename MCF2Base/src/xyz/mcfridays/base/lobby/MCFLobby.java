@@ -77,6 +77,11 @@ public class MCFLobby extends NovaModule implements Listener {
 	public void onEnable() throws Exception {
 		multiverseWorld = MultiverseManager.getInstance().createFromFile(new File(MCF.getInstance().getDataFolder().getPath() + File.separator + "mcf_lobby"), WorldUnloadOption.DELETE);
 
+		multiverseWorld.getWorld().setThundering(false);
+		multiverseWorld.getWorld().setWeatherDuration(0);
+
+		multiverseWorld.setLockWeather(true);
+
 		NetherBoardScoreboard.getInstance().setGlobalLine(0, ChatColor.YELLOW + "" + ChatColor.BOLD + "Lobby");
 		if (taskId1 == -1) {
 			taskId1 = Bukkit.getScheduler().scheduleSyncRepeatingTask(MCF.getInstance(), new Runnable() {
@@ -99,8 +104,9 @@ public class MCFLobby extends NovaModule implements Listener {
 				public void run() {
 					if (NovaCore.getInstance().hasTeamManager()) {
 						for (Team team : NovaCore.getInstance().getTeamManager().getTeams()) {
-							for(UUID uuid : team.getMembers()) {
-								// Load all players into score cache so that they get displayed in the leader board
+							for (UUID uuid : team.getMembers()) {
+								// Load all players into score cache so that they get displayed in the leader
+								// board
 								ScoreManager.getInstance().getPlayerScore(uuid);
 							}
 						}
@@ -213,7 +219,7 @@ public class MCFLobby extends NovaModule implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -223,8 +229,8 @@ public class MCFLobby extends NovaModule implements Listener {
 						Sign sign = (Sign) e.getClickedBlock().getState();
 						if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[Free]") && ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("Fishing rod")) {
 							Player p = e.getPlayer();
-							
-							if(!p.getInventory().contains(Material.FISHING_ROD)) {
+
+							if (!p.getInventory().contains(Material.FISHING_ROD)) {
 								p.getInventory().addItem(new ItemBuilder(Material.FISHING_ROD).setUnbreakable(true).build());
 							}
 						}
@@ -233,7 +239,7 @@ public class MCFLobby extends NovaModule implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onSignChange(SignChangeEvent e) {
 		if (e.getLine(0).equalsIgnoreCase("[free rod]")) {
@@ -243,14 +249,18 @@ public class MCFLobby extends NovaModule implements Listener {
 			e.setLine(3, "");
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent e) {
-		if (e.getMessage().equalsIgnoreCase("fus ro dah")) {
+		if (e.getMessage().equalsIgnoreCase("fus ro dah") || e.getMessage().equalsIgnoreCase("yeet")) {
 			Player player = e.getPlayer();
-			if (player.getUniqueId().toString().equalsIgnoreCase("8ec663e7-9a3d-4014-9bc6-a6915e629a56") || player.getUniqueId().toString().equalsIgnoreCase("980dbf7d-0904-426f-9c02-d9af3c099fb2")) {
+			if (player.getUniqueId().toString().equalsIgnoreCase("8ec663e7-9a3d-4014-9bc6-a6915e629a56") || player.getUniqueId().toString().equalsIgnoreCase("83d56501-b4e8-4d87-989a-93c9a4a6a9f8") || player.getUniqueId().toString().equalsIgnoreCase("980dbf7d-0904-426f-9c02-d9af3c099fb2")) {
 				player.getLocation().getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1, 1);
 				for (Player player2 : Bukkit.getServer().getOnlinePlayers()) {
+					if(player2.getWorld() != player.getWorld()) {
+						continue;
+					}
+					
 					Vector toPlayer2 = player2.getLocation().toVector().subtract(player.getLocation().toVector());
 
 					Vector direction = player.getLocation().getDirection();

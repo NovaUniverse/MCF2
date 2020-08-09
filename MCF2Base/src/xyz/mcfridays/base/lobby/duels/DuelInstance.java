@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import xyz.mcfridays.base.MCF;
+import xyz.zeeraa.novacore.NovaCore;
 import xyz.zeeraa.novacore.callbacks.Callback;
 import xyz.zeeraa.novacore.module.modules.multiverse.MultiverseWorld;
 import xyz.zeeraa.novacore.timers.BasicTimer;
@@ -65,7 +66,7 @@ public class DuelInstance {
 				@Override
 				public void run() {
 					Player otherPlayer = null;
-					
+
 					for (Player p2 : players) {
 						if (player.getUniqueId().toString().equalsIgnoreCase(p2.getUniqueId().toString())) {
 							continue;
@@ -74,10 +75,11 @@ public class DuelInstance {
 						otherPlayer = p2;
 						break;
 					}
-					
+
 					if (quitCount <= 1) {
 						sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Player Eliminated> " + ChatColor.AQUA + ChatColor.BOLD + player.getName() + ChatColor.RED + "" + ChatColor.BOLD + " quit");
 						sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Game Over> Winner: " + ChatColor.AQUA + ChatColor.BOLD + (otherPlayer != null ? otherPlayer.getName() : "null"));
+						Bukkit.getServer().broadcastMessage(ChatColor.AQUA + (otherPlayer != null ? otherPlayer.getName() : "null") + ChatColor.GOLD + " won a duel against " + ChatColor.AQUA + player.getName());
 						setStage(DuelStage.ENDED);
 					} else {
 						endDraw();
@@ -88,7 +90,7 @@ public class DuelInstance {
 			endDraw();
 		}
 	}
-	
+
 	public void endDraw() {
 		sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Game Over> It's a draw");
 		setStage(DuelStage.ENDED);
@@ -111,8 +113,15 @@ public class DuelInstance {
 			timer.addTickCallback(new TickCallback() {
 				@Override
 				public void execute(int timeLeft) {
+					if(timeLeft == 0) {
+						return;
+					}
+					
 					sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + timeLeft);
 					for (Player player : world.getWorld().getPlayers()) {
+						if(NovaCore.getInstance().getActionBar() != null) {
+							NovaCore.getInstance().getActionBar().sendMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + timeLeft);
+						}
 						player.playSound(player.getLocation(), Sound.NOTE_PLING, 1F, 1F);
 					}
 				}
@@ -125,9 +134,9 @@ public class DuelInstance {
 
 					players.get(0).teleport(location1);
 					players.get(1).teleport(location2);
-					
-					for(Player player :players) {
-						if(player.isOnline()) {
+
+					for (Player player : players) {
+						if (player.isOnline()) {
 							player.setFireTicks(0);
 							player.setFallDistance(0);
 						}
@@ -135,6 +144,9 @@ public class DuelInstance {
 
 					for (Player player : world.getWorld().getPlayers()) {
 						player.playSound(player.getLocation(), Sound.NOTE_PLING, 1F, 2F);
+						if(NovaCore.getInstance().getActionBar() != null) {
+							NovaCore.getInstance().getActionBar().sendMessage(player, ChatColor.GOLD + "" + ChatColor.BOLD + "GO");
+						}
 					}
 					setStage(DuelStage.INGAME);
 				}

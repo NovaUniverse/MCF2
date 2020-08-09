@@ -2,4 +2,5 @@ name: MCF2Skywars
 main: xyz.mcfridays.games.skywars.MCFSkywars
 description: MCF Skywars
 version: 1.0
-depend: [NovaCore, MCF2Base]
+depend: [NovaCore]
+softdepend: [MCF2Base]

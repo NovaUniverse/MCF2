@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import xyz.mcfridays.base.MCF;
+import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.team.MCFTeam;
 import xyz.mcfridays.base.team.MCFTeamManager;
@@ -44,7 +45,8 @@ public class MCFScoreboardData extends NovaModule implements Listener {
 						}
 
 						NetherBoardScoreboard.getInstance().setPlayerLine(2, player, ChatColor.GOLD + "Score: " + ChatColor.AQUA + playerScore);
-						NetherBoardScoreboard.getInstance().setPlayerLine(3, player, ChatColor.GOLD + "Team score: " + ChatColor.AQUA + teamScore);
+						NetherBoardScoreboard.getInstance().setPlayerLine(3, player, ChatColor.GOLD + "Kills: " + ChatColor.AQUA + MCFPlayerKillCache.getInstance().getPlayerKills(player.getUniqueId()));
+						NetherBoardScoreboard.getInstance().setPlayerLine(4, player, ChatColor.GOLD + "Team score: " + ChatColor.AQUA + teamScore);
 					}
 					double[] recentTps = NovaCore.getInstance().getVersionIndependentUtils().getRecentTps();
 

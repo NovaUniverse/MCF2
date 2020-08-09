@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.team.MCFTeam;
 import xyz.zeeraa.novacore.log.Log;
@@ -87,10 +88,6 @@ public class ScoreListener implements Listener {
 			if (GameManager.getInstance().hasGame()) {
 				if (GameManager.getInstance().getActiveGame().hasStarted()) {
 					for (UUID uuid : GameManager.getInstance().getActiveGame().getPlayers()) {
-						if (uuid == e.getPlayer().getUniqueId()) {
-							continue;
-						}
-
 						Player player = Bukkit.getServer().getPlayer(uuid);
 						if (player != null) {
 							if (player.isOnline()) {
@@ -123,6 +120,7 @@ public class ScoreListener implements Listener {
 
 				if (killerPlayer != null) {
 					ScoreManager.getInstance().addPlayerScore(killerPlayer, killScore, true);
+					MCFPlayerKillCache.getInstance().invalidate(killerPlayer);
 				}
 			}
 		}

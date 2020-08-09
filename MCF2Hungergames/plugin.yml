@@ -2,4 +2,5 @@ name: MCF2Hungergames
 main: xyz.mcfridays.games.hungergames.MCFHungergames
 description: MCF Hungergames
 version: 1.0
-depend: [NovaCore, MCF2Base]
+depend: [NovaCore]
+softdepend: [MCF2Base]
