@@ -8,7 +8,7 @@ import xyz.zeeraa.novacore.teams.Team;
 public class MCFTeam extends Team {
 	private int teamNumber;
 	private int score;
-	
+
 	public MCFTeam(int teamNumber, int score) {
 		this.teamNumber = teamNumber;
 		this.score = score;
@@ -17,15 +17,15 @@ public class MCFTeam extends Team {
 	public int getTeamNumber() {
 		return teamNumber;
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
-	
+
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 	public String getMemberString() {
 		String result = "";
 
@@ -78,5 +78,10 @@ public class MCFTeam extends Team {
 		default:
 			return ChatColor.YELLOW;
 		}
+	}
+
+	@Override
+	public String getDisplayName() {
+		return "Team " + this.getTeamNumber();
 	}
 }

@@ -26,10 +26,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.util.Vector;
 
+import me.rayzr522.jsonmessage.JSONMessage;
 import xyz.mcfridays.base.MCF;
+import xyz.mcfridays.base.command.reconnect.MCFReconnectCommand;
+import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.zeeraa.novacore.NovaCore;
 import xyz.zeeraa.novacore.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
+import xyz.zeeraa.novacore.command.CommandRegistry;
 import xyz.zeeraa.novacore.log.Log;
 import xyz.zeeraa.novacore.module.NovaModule;
 import xyz.zeeraa.novacore.module.modules.multiverse.MultiverseManager;
@@ -114,6 +118,8 @@ public class MCFLobby extends NovaModule implements Listener {
 				}
 			}, 200L, 200L);
 		}
+
+		CommandRegistry.registerCommand(new MCFReconnectCommand());
 	}
 
 	@Override
@@ -176,6 +182,17 @@ public class MCFLobby extends NovaModule implements Listener {
 		}
 		p.setFallDistance(0);
 		p.setGameMode(GameMode.ADVENTURE);
+
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerJoinMonitor(PlayerJoinEvent e) {
+		if (MCFDB.getActiveServer() != null) {
+			Player p = e.getPlayer();
+
+			JSONMessage.create("A game is in progress!").color(ChatColor.GOLD).style(ChatColor.BOLD).send(p);
+			JSONMessage.create("Use /reconnect or click ").color(ChatColor.GOLD).style(ChatColor.BOLD).then("[Here]").color(ChatColor.GREEN).tooltip("Click to reconnect").runCommand("/reconnect").style(ChatColor.BOLD).then(" to reconnect").color(ChatColor.GOLD).style(ChatColor.BOLD).send(p);
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -257,10 +274,10 @@ public class MCFLobby extends NovaModule implements Listener {
 			if (player.getUniqueId().toString().equalsIgnoreCase("8ec663e7-9a3d-4014-9bc6-a6915e629a56") || player.getUniqueId().toString().equalsIgnoreCase("83d56501-b4e8-4d87-989a-93c9a4a6a9f8") || player.getUniqueId().toString().equalsIgnoreCase("980dbf7d-0904-426f-9c02-d9af3c099fb2")) {
 				player.getLocation().getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1, 1);
 				for (Player player2 : Bukkit.getServer().getOnlinePlayers()) {
-					if(player2.getWorld() != player.getWorld()) {
+					if (player2.getWorld() != player.getWorld()) {
 						continue;
 					}
-					
+
 					Vector toPlayer2 = player2.getLocation().toVector().subtract(player.getLocation().toVector());
 
 					Vector direction = player.getLocation().getDirection();

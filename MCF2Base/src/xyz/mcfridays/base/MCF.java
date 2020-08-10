@@ -55,6 +55,7 @@ import xyz.zeeraa.novacore.module.modules.compass.CompassTracker;
 import xyz.zeeraa.novacore.module.modules.game.GameManager;
 import xyz.zeeraa.novacore.module.modules.game.events.GameEndEvent;
 import xyz.zeeraa.novacore.module.modules.game.events.GameLoadedEvent;
+import xyz.zeeraa.novacore.module.modules.game.events.GameStartEvent;
 import xyz.zeeraa.novacore.module.modules.game.events.PlayerWinEvent;
 import xyz.zeeraa.novacore.module.modules.game.events.TeamWinEvent;
 import xyz.zeeraa.novacore.module.modules.gamelobby.GameLobby;
@@ -67,7 +68,7 @@ public class MCF extends JavaPlugin implements Listener {
 	private static MCF instance;
 	private static DBConnection dbConnection;
 	private static String serverName;
-	
+
 	private ArrayList<Plugin> relatedPlugins;
 
 	private File sqlFixFile;
@@ -101,7 +102,7 @@ public class MCF extends JavaPlugin implements Listener {
 	public String getLobbyServer() {
 		return lobbyServer;
 	}
-	
+
 	public ArrayList<Plugin> getRelatedPlugins() {
 		return relatedPlugins;
 	}
@@ -109,7 +110,7 @@ public class MCF extends JavaPlugin implements Listener {
 	public void setServerAsActive(boolean active) {
 		MCFDB.setActiveServer(active ? getServerName() : null);
 	}
-	
+
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
@@ -119,7 +120,7 @@ public class MCF extends JavaPlugin implements Listener {
 		MCF.dbConnection = new DBConnection();
 
 		this.relatedPlugins = new ArrayList<Plugin>();
-		
+
 		this.lobbyServer = getConfig().getString("lobby_server");
 
 		DBCredentials dbCredentials = new DBCredentials(getConfig().getString("mysql.driver"), getConfig().getString("mysql.host"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"), getConfig().getString("mysql.database"));
@@ -182,7 +183,7 @@ public class MCF extends JavaPlugin implements Listener {
 		ModuleManager.loadModule(MCFScoreboard.class, true);
 		ModuleManager.loadModule(MCFPlayerNameCache.class, true);
 		ModuleManager.loadModule(MCFPlayerKillCache.class, true);
-		
+
 		ModuleManager.loadModule(MCFLobby.class);
 
 		teamManager = new MCFTeamManager();
@@ -218,23 +219,23 @@ public class MCF extends JavaPlugin implements Listener {
 			MCFLobby.getInstance().setLobbyLocation(lobbyLocation);
 
 			MCFLobby.getInstance().setKOTLLocation(getConfig().getDouble("kotl_x"), getConfig().getDouble("kotl_z"), getConfig().getDouble("kotl_radius"));
-			
+
 			ConfigurationSection playerLeaderboard = getConfig().getConfigurationSection("lobby_player_leaderboard");
 			ConfigurationSection teamLeaderboard = getConfig().getConfigurationSection("lobby_team_leaderboard");
-			
+
 			MCFLeaderboard.getInstance().setLines(8);
-			
+
 			MCFLeaderboard.getInstance().setPlayerHologramLocation(new Location(MCFLobby.getInstance().getWorld(), playerLeaderboard.getDouble("x"), playerLeaderboard.getDouble("y"), playerLeaderboard.getDouble("z")));
 			MCFLeaderboard.getInstance().setTeamHologramLocation(new Location(MCFLobby.getInstance().getWorld(), teamLeaderboard.getDouble("x"), teamLeaderboard.getDouble("y"), teamLeaderboard.getDouble("z")));
-			
+
 			ModuleManager.require(GUIManager.class);
-			
+
 			CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(MerchantTrait.class).withName("MerchantTrait"));
-			
+
 			ModuleManager.loadModule(DuelsManager.class, true);
 			CommandRegistry.registerCommand(new AcceptDuelCommand());
 			CommandRegistry.registerCommand(new DuelCommand());
-			
+
 		} else if (getConfig().getBoolean("game_enabled")) {
 			scoreListener = new ScoreListener(getConfig().getBoolean("kill_score_enabled"), getConfig().getInt("kill_score"), getConfig().getBoolean("win_score_enabled"), winScore, getConfig().getBoolean("participation_score_enabled"), getConfig().getInt("participation_score"));
 
@@ -246,9 +247,9 @@ public class MCF extends JavaPlugin implements Listener {
 			CompassTracker.getInstance().setCompassTrackerTarget(new MCFCompassTraker());
 			CompassTracker.getInstance().setStrictMode(true);
 		}
-		
+
 		NetherBoardScoreboard.getInstance().setGlobalLine(14, ChatColor.YELLOW + "http://mcfridays.xyz");
-		
+
 		relatedPlugins.add(this);
 		relatedPlugins.add(NovaCore.getInstance());
 	}
@@ -275,7 +276,24 @@ public class MCF extends JavaPlugin implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
+	public void onGameStart(GameStartEvent e) {
+		try {
+			MCFDB.setActiveServer(serverName);
+		} catch (Exception ex) {
+			Log.error("Failed to set active server name");
+			ex.printStackTrace();
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onGameEnd(GameEndEvent e) {
+		try {
+			MCFDB.setActiveServer(null);
+		} catch (Exception ex) {
+			Log.error("Failed to reset active server name");
+			ex.printStackTrace();
+		}
+		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {

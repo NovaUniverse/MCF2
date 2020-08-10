@@ -19,5 +19,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/NovaCore"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NovaCore_v1_8_R3"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NovaCoreAbstraction"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MCF2Bingo"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
