@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.trait.TraitInfo;
+import xyz.mcfridays.base.bingo.MCFBingoManger;
 import xyz.mcfridays.base.crafting.EnchantedGoldenAppleRecipe;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
@@ -181,9 +182,11 @@ public class MCF extends JavaPlugin implements Listener {
 		ModuleManager.loadModule(KillListener.class, true);
 		ModuleManager.loadModule(MCFLeaderboard.class, true);
 		ModuleManager.loadModule(MCFScoreboard.class, true);
+		
 		ModuleManager.loadModule(MCFPlayerNameCache.class, true);
 		ModuleManager.loadModule(MCFPlayerKillCache.class, true);
 
+		ModuleManager.loadModule(MCFBingoManger.class);
 		ModuleManager.loadModule(MCFLobby.class);
 
 		teamManager = new MCFTeamManager();
@@ -273,6 +276,10 @@ public class MCF extends JavaPlugin implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onGameLoaded(GameLoadedEvent e) {
 		NetherBoardScoreboard.getInstance().setGlobalLine(0, ChatColor.YELLOW + "" + ChatColor.BOLD + e.getGame().getDisplayName());
+		
+		if(e.getGame().getName().equalsIgnoreCase("bingo")) {
+			ModuleManager.enable(MCFBingoManger.class);
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
