@@ -48,6 +48,7 @@ import xyz.zeeraa.novacore.module.modules.multiverse.MultiverseManager;
 import xyz.zeeraa.novacore.module.modules.multiverse.MultiverseWorld;
 import xyz.zeeraa.novacore.module.modules.multiverse.WorldOptions;
 import xyz.zeeraa.novacore.module.modules.multiverse.WorldUnloadOption;
+import xyz.zeeraa.novacore.tasks.SimpleTask;
 import xyz.zeeraa.novacore.teams.Team;
 import xyz.zeeraa.novacore.timers.BasicTimer;
 import xyz.zeeraa.novacore.utils.ItemBuilder;
@@ -77,6 +78,8 @@ public class Bingo extends Game implements Listener {
 	private TeamFailMessage teamFailMessage;
 
 	private BasicTimer gameTimer;
+
+	private SimpleTask checkTask;
 
 	// ###### Default functions ######
 	@Override
@@ -169,6 +172,53 @@ public class Bingo extends Game implements Listener {
 		this.teamMenu = new HashMap<UUID, Inventory>();
 		this.teamCompletedItems = new HashMap<UUID, ArrayList<Integer>>();
 
+		this.checkTask = new SimpleTask(MCFBingo.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				if (world != null) {
+					for (UUID uuid : players) {
+						Player player = Bukkit.getPlayer(uuid);
+
+						if (player != null) {
+							if (player.isOnline()) {
+								if (player.getGameMode() == GameMode.SPECTATOR) {
+									continue;
+								}
+
+								for (ItemStack item : player.getInventory().getContents()) {
+									if (item != null) {
+										checkItem(item, player);
+									}
+								}
+							}
+						}
+					}
+
+					for (Player player : world.getPlayers()) {
+						int x = (int) player.getLocation().getX();
+						int z = (int) player.getLocation().getZ();
+
+						if (x < 0) {
+							x *= -1;
+						}
+
+						if (z < 0) {
+							z *= -1;
+						}
+
+						if (x > (world.getWorldBorder().getSize() / 2) + 10 || z > (world.getWorldBorder().getSize() / 2) + 10) {
+							player.teleport(world.getSpawnLocation());
+						}
+					}
+				}
+				
+				if(players.size() == 0) {
+					Bukkit.getServer().broadcastMessage(ChatColor.GOLD+""+ChatColor.BOLD +"All teams has finished");
+					endGame();
+				}
+			}
+		}, 20L, 20L);
+
 		this.gameTimer = new BasicTimer(2400, 20L);
 
 		gameTimer.addFinishCallback(new Callback() {
@@ -219,34 +269,10 @@ public class Bingo extends Game implements Listener {
 
 		this.world.setGameRuleValue("doFireTick", "false");
 		this.world.setGameRuleValue("keepInventory", "true");
+	}
 
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(MCFBingo.getInstance(), new Runnable() {
-			@Override
-			public void run() {
-				if (world != null) {
-					for (Player p : Bukkit.getOnlinePlayers()) {
-						if (p.getGameMode() == GameMode.SPECTATOR) {
-							if (p.getWorld().getName().equalsIgnoreCase(world.getName())) {
-								int x = (int) p.getLocation().getX();
-								int z = (int) p.getLocation().getZ();
-
-								if (x < 0) {
-									x *= -1;
-								}
-
-								if (z < 0) {
-									z *= -1;
-								}
-
-								if (x > (world.getWorldBorder().getSize() / 2) + 10 || z > (world.getWorldBorder().getSize() / 2) + 10) {
-									p.teleport(world.getSpawnLocation());
-								}
-							}
-						}
-					}
-				}
-			}
-		}, 20L, 20L);
+	public BasicTimer getGameTimer() {
+		return gameTimer;
 	}
 
 	@Override
@@ -265,6 +291,9 @@ public class Bingo extends Game implements Listener {
 				}
 			}
 		}
+
+		gameTimer.start();
+		checkTask.start();
 	}
 
 	@Override
@@ -272,7 +301,33 @@ public class Bingo extends Game implements Listener {
 		if (ended) {
 			return;
 		}
+
+		if (gameTimer != null) {
+			gameTimer.cancel();
+		}
+
+		if (checkTask != null) {
+			checkTask.stop();
+		}
+
+		if (worldPreGenerator != null) {
+			if (!worldPreGenerator.isFinished()) {
+				worldPreGenerator.stop();
+			}
+		}
+
 		ended = true;
+	}
+
+	@Override
+	public void onUnload() {
+		if (gameTimer != null) {
+			gameTimer.cancel();
+		}
+
+		if (checkTask != null) {
+			checkTask.stop();
+		}
 	}
 
 	public WorldPreGenerator getWorldPreGenerator() {
@@ -466,6 +521,14 @@ public class Bingo extends Game implements Listener {
 		return teamMenu.get(uuid);
 	}
 
+	public boolean hasTeamMenu(Team team) {
+		return this.hasTeamMenu(team.getTeamUuid());
+	}
+
+	public boolean hasTeamMenu(UUID uuid) {
+		return teamMenu.containsKey(uuid);
+	}
+
 	private void checkItem(ItemStack item, Player player) {
 		Team team = NovaCore.getInstance().getTeamManager().getPlayerTeam(player);
 
@@ -514,7 +577,7 @@ public class Bingo extends Game implements Listener {
 							Bukkit.getServer().getPluginManager().callEvent(event2);
 
 							teamCompleteGameMessage.showTeamCompleteGameMessage(team, finishedTeamCount);
-							
+
 							return;
 						}
 					}

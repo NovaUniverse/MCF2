@@ -12,11 +12,16 @@ import xyz.mcfridays.base.team.MCFTeam;
 import xyz.mcfridays.base.team.MCFTeamManager;
 import xyz.zeeraa.novacore.NovaCore;
 import xyz.zeeraa.novacore.module.NovaModule;
+import xyz.zeeraa.novacore.module.modules.game.GameManager;
 import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
 import xyz.zeeraa.novacore.utils.TextUtils;
 
 public class MCFScoreboard extends NovaModule implements Listener {
 	private int taskId;
+	
+	private boolean gameCountdownShown;
+	
+	public static final int COUNTDOWN_LINE = 6;
 
 	@Override
 	public String getName() {
@@ -25,7 +30,8 @@ public class MCFScoreboard extends NovaModule implements Listener {
 
 	@Override
 	public void onLoad() {
-		taskId = -1;
+		this.taskId = -1;
+		this .gameCountdownShown = false;
 	}
 
 	@Override
@@ -52,6 +58,16 @@ public class MCFScoreboard extends NovaModule implements Listener {
 						int ping = NovaCore.getInstance().getVersionIndependentUtils().getPlayerPing(player);
 
 						NetherBoardScoreboard.getInstance().setPlayerLine(12, player, ChatColor.GOLD + "Your ping: " + formatPing(ping) + "ms " + (ping > 800 ? ChatColor.YELLOW + TextUtils.ICON_WARNING : ""));
+						
+						if(GameManager.getInstance().getCountdown().isCountdownRunning() && !GameManager.getInstance().getCountdown().hasCountdownFinished()) {
+							gameCountdownShown = true;
+							NetherBoardScoreboard.getInstance().setGlobalLine(COUNTDOWN_LINE, ChatColor.GOLD + "Starting in " + ChatColor.AQUA + TextUtils.secondsToHoursMinutes(GameManager.getInstance().getCountdown().getTimeLeft()));
+						} else {
+							if(gameCountdownShown) {
+								gameCountdownShown = false;
+								NetherBoardScoreboard.getInstance().clearGlobalLine(COUNTDOWN_LINE);
+							}
+						}
 					}
 
 					double[] recentTps = NovaCore.getInstance().getVersionIndependentUtils().getRecentTps();

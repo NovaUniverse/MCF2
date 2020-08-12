@@ -34,6 +34,9 @@ public class BingoCommand extends NovaCommand {
 					Team team = NovaCore.getInstance().getTeamManager().getPlayerTeam(player);
 
 					if (team != null) {
+						if(!MCFBingo.getInstance().getGame().hasTeamMenu(team)) {
+							MCFBingo.getInstance().getGame().createInventory(team.getTeamUuid());
+						}
 						player.openInventory(MCFBingo.getInstance().getGame().getTeamMenu(team));
 					} else {
 						player.sendMessage(ChatColor.RED + "ERR:TEAM_NULL");

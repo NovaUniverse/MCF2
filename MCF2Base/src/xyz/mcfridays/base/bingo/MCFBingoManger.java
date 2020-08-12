@@ -9,12 +9,14 @@ import xyz.mcfridays.games.bingo.MCFBingo;
 import xyz.mcfridays.games.bingo.game.Bingo;
 import xyz.zeeraa.novacore.module.NovaModule;
 import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
+import xyz.zeeraa.novacore.utils.TextUtils;
 
 public class MCFBingoManger extends NovaModule implements Listener {
-	public static final int LOADING_WORLD_LINE = 5;
+	public static final int BINGO_TIMER_AND_GENERATION_LINE = 6;
 
 	private int taskId;
 	private boolean worldGenerationShown;
+	private boolean bingoTimerShown;
 
 	@Override
 	public String getName() {
@@ -25,6 +27,7 @@ public class MCFBingoManger extends NovaModule implements Listener {
 	public void onLoad() {
 		this.taskId = -1;
 		this.worldGenerationShown = false;
+		this.bingoTimerShown = false;
 	}
 
 	@Override
@@ -38,12 +41,36 @@ public class MCFBingoManger extends NovaModule implements Listener {
 					if (!bingo.getWorldPreGenerator().isFinished()) {
 						worldGenerationShown = true;
 
-						NetherBoardScoreboard.getInstance().setGlobalLine(LOADING_WORLD_LINE, ChatColor.AQUA + "Generating world: " + ((int) (bingo.getWorldPreGenerator().getProgressValue() * 100)) + "%");
+						NetherBoardScoreboard.getInstance().setGlobalLine(BINGO_TIMER_AND_GENERATION_LINE, ChatColor.GOLD + "Generating world: " + ChatColor.AQUA + "" + ((int) (bingo.getWorldPreGenerator().getProgressValue() * 100)) + "%");
 					} else if (worldGenerationShown) {
 						worldGenerationShown = false;
 
-						NetherBoardScoreboard.getInstance().clearGlobalLine(LOADING_WORLD_LINE);
+						NetherBoardScoreboard.getInstance().clearGlobalLine(BINGO_TIMER_AND_GENERATION_LINE);
 					}
+					
+					if (bingo.getGameTimer().isRunning()) {
+						bingoTimerShown = true;
+
+						int timeLeft = bingo.getGameTimer().getTimeLeft();
+						
+						ChatColor color;
+						
+						if(timeLeft < 300) {
+							color = ChatColor.RED;
+						} else if(timeLeft < 600){
+							color = ChatColor.YELLOW;
+						} else {
+							color = ChatColor.GREEN;
+						}
+						
+						NetherBoardScoreboard.getInstance().setGlobalLine(BINGO_TIMER_AND_GENERATION_LINE, ChatColor.GOLD + "Time left: " + color+ "" + TextUtils.secondsToHoursMinutes(timeLeft));
+					} else if (bingoTimerShown) {
+						bingoTimerShown = false;
+
+						NetherBoardScoreboard.getInstance().clearGlobalLine(BINGO_TIMER_AND_GENERATION_LINE);
+					}
+					
+					
 				}
 			}, 5L, 5L);
 		}

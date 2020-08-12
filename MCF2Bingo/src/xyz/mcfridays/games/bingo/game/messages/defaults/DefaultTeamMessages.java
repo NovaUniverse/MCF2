@@ -17,7 +17,7 @@ public class DefaultTeamMessages implements TeamFindItemMessage, TeamCompleteGam
 
 	@Override
 	public void showTeamCompleteGameMessage(Team team, int placement) {
-		Bukkit.getServer().broadcastMessage(team.getTeamColor() + "" + ChatColor.BOLD + team.getDisplayName() + ChatColor.GREEN + "" + ChatColor.BOLD + " found all the items. " + ChatColor.AQUA + TextUtils.ordinal(placement) + " place");
+		Bukkit.getServer().broadcastMessage(team.getTeamColor() + "" + ChatColor.BOLD + team.getDisplayName() + ChatColor.GREEN + "" + ChatColor.BOLD + " found all the items. " + ChatColor.AQUA + ChatColor.BOLD + TextUtils.ordinal(placement) + " place");
 	}
 
 	@Override
