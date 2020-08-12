@@ -28,7 +28,7 @@ import org.bukkit.util.Vector;
 
 import me.rayzr522.jsonmessage.JSONMessage;
 import xyz.mcfridays.base.MCF;
-import xyz.mcfridays.base.command.reconnect.MCFReconnectCommand;
+import xyz.mcfridays.base.command.reconnect.MCFCommandReconnect;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.zeeraa.novacore.NovaCore;
@@ -119,7 +119,7 @@ public class MCFLobby extends NovaModule implements Listener {
 			}, 200L, 200L);
 		}
 
-		CommandRegistry.registerCommand(new MCFReconnectCommand());
+		CommandRegistry.registerCommand(new MCFCommandReconnect());
 	}
 
 	@Override

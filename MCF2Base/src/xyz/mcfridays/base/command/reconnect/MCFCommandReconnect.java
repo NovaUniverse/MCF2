@@ -13,8 +13,8 @@ import xyz.zeeraa.novacore.command.AllowedSenders;
 import xyz.zeeraa.novacore.command.NovaCommand;
 import xyz.zeeraa.novacore.utils.BungeecordUtils;
 
-public class MCFReconnectCommand extends NovaCommand {
-	public MCFReconnectCommand() {
+public class MCFCommandReconnect extends NovaCommand {
+	public MCFCommandReconnect() {
 		super("reconnect");
 
 		this.setAllowedSenders(AllowedSenders.PLAYERS);

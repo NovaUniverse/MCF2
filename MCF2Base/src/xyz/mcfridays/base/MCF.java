@@ -22,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.trait.TraitInfo;
 import xyz.mcfridays.base.bingo.MCFBingoManger;
+import xyz.mcfridays.base.command.mcf.MCFCommandMCF;
 import xyz.mcfridays.base.crafting.EnchantedGoldenAppleRecipe;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
@@ -212,6 +213,8 @@ public class MCF extends JavaPlugin implements Listener {
 			Bukkit.getPluginManager().registerEvents(new EdibleHeads(), this);
 		}
 
+		CommandRegistry.registerCommand(new MCFCommandMCF());
+		
 		GameManager.getInstance().setUseTeams(true); // TODO: Add a mode without teams
 
 		// -=-=-= lobby =-=-=-
