@@ -11,17 +11,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
+import net.zeeraa.novacore.module.modules.game.events.PlayerWinEvent;
+import net.zeeraa.novacore.module.modules.game.events.TeamEliminatedEvent;
+import net.zeeraa.novacore.module.modules.game.events.TeamWinEvent;
+import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.utils.ProjectileUtils;
 import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.team.MCFTeam;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.modules.game.GameManager;
-import xyz.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
-import xyz.zeeraa.novacore.module.modules.game.events.PlayerWinEvent;
-import xyz.zeeraa.novacore.module.modules.game.events.TeamEliminatedEvent;
-import xyz.zeeraa.novacore.module.modules.game.events.TeamWinEvent;
-import xyz.zeeraa.novacore.teams.Team;
-import xyz.zeeraa.novacore.utils.ProjectileUtils;
 
 public class ScoreListener implements Listener {
 	private boolean killScoreEnabled;

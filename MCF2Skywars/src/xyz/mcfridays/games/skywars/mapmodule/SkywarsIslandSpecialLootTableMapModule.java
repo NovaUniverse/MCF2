@@ -8,15 +8,15 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.json.JSONObject;
 
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.loottable.LootTable;
-import xyz.zeeraa.novacore.module.modules.chestloot.ChestType;
-import xyz.zeeraa.novacore.module.modules.chestloot.events.ChestFillEvent;
-import xyz.zeeraa.novacore.module.modules.game.Game;
-import xyz.zeeraa.novacore.module.modules.game.GameManager;
-import xyz.zeeraa.novacore.module.modules.game.MapGame;
-import xyz.zeeraa.novacore.module.modules.game.map.mapmodule.MapModule;
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.loottable.LootTable;
+import net.zeeraa.novacore.module.modules.chestloot.ChestType;
+import net.zeeraa.novacore.module.modules.chestloot.events.ChestFillEvent;
+import net.zeeraa.novacore.module.modules.game.Game;
+import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.module.modules.game.MapGame;
+import net.zeeraa.novacore.module.modules.game.map.mapmodule.MapModule;
 
 public class SkywarsIslandSpecialLootTableMapModule extends MapModule implements Listener {
 	private int islandRadius;

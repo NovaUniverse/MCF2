@@ -3,7 +3,7 @@ package xyz.mcfridays.games.bingo.game.event;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import xyz.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.teams.Team;
 
 public class TeamCompleteGameEvent extends Event {
 	private static final HandlerList HANDLERS_LIST = new HandlerList();

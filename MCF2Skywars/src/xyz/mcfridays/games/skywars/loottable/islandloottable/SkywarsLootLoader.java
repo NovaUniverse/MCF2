@@ -13,9 +13,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.loottable.LootTable;
-import xyz.zeeraa.novacore.loottable.LootTableLoader;
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.loottable.LootTable;
+import net.zeeraa.novacore.loottable.LootTableLoader;
 
 public class SkywarsLootLoader implements LootTableLoader {
 

@@ -1,6 +1,6 @@
 package xyz.mcfridays.games.bingo.game.messages;
 
-import xyz.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.teams.Team;
 
 public interface TeamCompleteGameMessage {
 	/**

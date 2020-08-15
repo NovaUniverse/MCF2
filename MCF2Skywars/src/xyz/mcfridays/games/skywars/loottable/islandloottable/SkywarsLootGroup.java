@@ -5,7 +5,7 @@ import java.util.Random;
 
 import org.bukkit.inventory.ItemStack;
 
-import xyz.zeeraa.novacore.utils.RandomGenerator;
+import net.zeeraa.novacore.utils.RandomGenerator;
 
 public class SkywarsLootGroup {
 	private int minAmount;

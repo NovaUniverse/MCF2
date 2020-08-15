@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
+import net.zeeraa.novacore.command.AllowedSenders;
+import net.zeeraa.novacore.command.NovaCommand;
+import net.zeeraa.novacore.log.Log;
 import xyz.mcfridays.base.lobby.duels.DuelsManager;
 import xyz.mcfridays.base.lobby.duels.InviteResult;
-import xyz.zeeraa.novacore.command.AllowedSenders;
-import xyz.zeeraa.novacore.command.NovaCommand;
-import xyz.zeeraa.novacore.log.Log;
 
 public class AcceptDuelCommand extends NovaCommand {
 	public AcceptDuelCommand() {

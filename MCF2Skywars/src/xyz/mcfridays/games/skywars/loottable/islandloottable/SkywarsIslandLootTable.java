@@ -5,7 +5,7 @@ import java.util.Random;
 
 import org.bukkit.inventory.ItemStack;
 
-import xyz.zeeraa.novacore.loottable.LootTable;
+import net.zeeraa.novacore.loottable.LootTable;
 
 public class SkywarsIslandLootTable extends LootTable {
 	private ArrayList<SkywarsLootGroup> lootGroups;

@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-import xyz.zeeraa.novacore.customcrafting.CustomRecipe;
+import net.zeeraa.novacore.customcrafting.CustomRecipe;
 
 public class EnchantedGoldenAppleRecipe extends CustomRecipe {
 

@@ -6,10 +6,10 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.module.modules.game.elimination.PlayerEliminationReason;
-import xyz.zeeraa.novacore.module.modules.game.eliminationmessage.PlayerEliminationMessage;
-import xyz.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.module.modules.game.elimination.PlayerEliminationReason;
+import net.zeeraa.novacore.module.modules.game.eliminationmessage.PlayerEliminationMessage;
+import net.zeeraa.novacore.teams.Team;
 
 public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 	@Override

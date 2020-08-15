@@ -8,10 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
+import net.zeeraa.novacore.command.AllowedSenders;
+import net.zeeraa.novacore.command.NovaCommand;
+import net.zeeraa.novacore.utils.BungeecordUtils;
 import xyz.mcfridays.base.crafting.database.MCFDB;
-import xyz.zeeraa.novacore.command.AllowedSenders;
-import xyz.zeeraa.novacore.command.NovaCommand;
-import xyz.zeeraa.novacore.utils.BungeecordUtils;
 
 public class MCFCommandReconnect extends NovaCommand {
 	public MCFCommandReconnect() {

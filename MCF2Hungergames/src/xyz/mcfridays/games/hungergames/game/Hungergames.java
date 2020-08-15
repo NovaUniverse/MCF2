@@ -19,17 +19,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import xyz.mcfridays.base.MCF;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.callbacks.Callback;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.modules.game.MapGame;
-import xyz.zeeraa.novacore.module.modules.game.elimination.PlayerQuitEliminationAction;
-import xyz.zeeraa.novacore.teams.Team;
-import xyz.zeeraa.novacore.timers.BasicTimer;
-import xyz.zeeraa.novacore.timers.TickCallback;
-import xyz.zeeraa.novacore.utils.PlayerUtils;
-import xyz.zeeraa.novacore.utils.RandomGenerator;
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.callbacks.Callback;
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.modules.game.MapGame;
+import net.zeeraa.novacore.module.modules.game.elimination.PlayerQuitEliminationAction;
+import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.timers.BasicTimer;
+import net.zeeraa.novacore.timers.TickCallback;
+import net.zeeraa.novacore.utils.PlayerUtils;
+import net.zeeraa.novacore.utils.RandomGenerator;
 
 public class Hungergames extends MapGame implements Listener {
 	private boolean started;
@@ -180,14 +179,8 @@ public class Hungergames extends MapGame implements Listener {
 
 	@Override
 	public void onEnd() {
-		try {
-			MCF.getInstance().setServerAsActive(false);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
 		ended = true;
-
+		
 		for (Location location : getActiveMap().getStarterLocations()) {
 			Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 			FireworkMeta fwm = fw.getFireworkMeta();

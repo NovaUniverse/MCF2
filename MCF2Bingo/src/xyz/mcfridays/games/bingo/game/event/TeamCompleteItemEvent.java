@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import xyz.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.teams.Team;
 
 public class TeamCompleteItemEvent extends Event {
 	private static final HandlerList HANDLERS_LIST = new HandlerList();

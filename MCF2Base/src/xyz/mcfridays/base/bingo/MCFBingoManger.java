@@ -4,12 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
+import net.zeeraa.novacore.module.NovaModule;
+import net.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
+import net.zeeraa.novacore.utils.TextUtils;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.games.bingo.MCFBingo;
 import xyz.mcfridays.games.bingo.game.Bingo;
-import xyz.zeeraa.novacore.module.NovaModule;
-import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
-import xyz.zeeraa.novacore.utils.TextUtils;
 
 public class MCFBingoManger extends NovaModule implements Listener {
 	public static final int BINGO_TIMER_AND_GENERATION_LINE = 6;

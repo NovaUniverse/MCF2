@@ -15,11 +15,12 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.NovaModule;
+import net.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.team.MCFTeam;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.NovaModule;
-import xyz.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
 
 public class ScoreManager extends NovaModule implements Listener {
 	private static ScoreManager instance;

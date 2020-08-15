@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.inventory.ItemStack;
 
-import xyz.zeeraa.novacore.utils.RandomGenerator;
+import net.zeeraa.novacore.utils.RandomGenerator;
 
 public class SkywarsLootEntry {
 	private ItemStack item;

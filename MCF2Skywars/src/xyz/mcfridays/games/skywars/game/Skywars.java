@@ -22,17 +22,17 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.callbacks.Callback;
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.modules.game.MapGame;
+import net.zeeraa.novacore.module.modules.game.elimination.PlayerQuitEliminationAction;
+import net.zeeraa.novacore.timers.BasicTimer;
+import net.zeeraa.novacore.timers.TickCallback;
+import net.zeeraa.novacore.utils.PlayerUtils;
+import net.zeeraa.novacore.utils.RandomGenerator;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.team.MCFTeam;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.callbacks.Callback;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.modules.game.MapGame;
-import xyz.zeeraa.novacore.module.modules.game.elimination.PlayerQuitEliminationAction;
-import xyz.zeeraa.novacore.timers.BasicTimer;
-import xyz.zeeraa.novacore.timers.TickCallback;
-import xyz.zeeraa.novacore.utils.PlayerUtils;
-import xyz.zeeraa.novacore.utils.RandomGenerator;
 
 public class Skywars extends MapGame implements Listener {
 	private boolean started;

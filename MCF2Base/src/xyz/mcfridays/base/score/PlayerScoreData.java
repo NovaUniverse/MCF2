@@ -4,9 +4,9 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.teams.Team;
 import xyz.mcfridays.base.misc.MCFPlayerNameCache;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.teams.Team;
 
 public class PlayerScoreData extends ScoreData {
 	private UUID uuid;

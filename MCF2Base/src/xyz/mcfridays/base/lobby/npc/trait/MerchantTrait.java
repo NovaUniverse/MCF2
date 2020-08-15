@@ -17,10 +17,10 @@ import me.rayzr522.jsonmessage.JSONMessage;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
-import xyz.zeeraa.novacore.module.modules.gui.GUIAction;
-import xyz.zeeraa.novacore.module.modules.gui.callbacks.GUIClickCallback;
-import xyz.zeeraa.novacore.module.modules.gui.holders.GUIHolder;
-import xyz.zeeraa.novacore.utils.ItemBuilder;
+import net.zeeraa.novacore.module.modules.gui.GUIAction;
+import net.zeeraa.novacore.module.modules.gui.callbacks.GUIClickCallback;
+import net.zeeraa.novacore.module.modules.gui.holders.GUIHolder;
+import net.zeeraa.novacore.utils.ItemBuilder;
 
 @TraitName("MerchantTrait")
 public class MerchantTrait extends Trait {

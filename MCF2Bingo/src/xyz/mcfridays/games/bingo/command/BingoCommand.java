@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
 import net.md_5.bungee.api.ChatColor;
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.command.AllowedSenders;
+import net.zeeraa.novacore.command.NovaCommand;
+import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.teams.Team;
 import xyz.mcfridays.games.bingo.MCFBingo;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.command.AllowedSenders;
-import xyz.zeeraa.novacore.command.NovaCommand;
-import xyz.zeeraa.novacore.module.modules.game.GameManager;
-import xyz.zeeraa.novacore.teams.Team;
 
 public class BingoCommand extends NovaCommand {
 	public BingoCommand() {

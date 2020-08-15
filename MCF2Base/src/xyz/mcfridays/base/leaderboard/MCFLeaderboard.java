@@ -10,11 +10,11 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
+import net.zeeraa.novacore.module.NovaModule;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.score.PlayerScoreData;
 import xyz.mcfridays.base.score.TeamScoreData;
 import xyz.mcfridays.base.score.TopScore;
-import xyz.zeeraa.novacore.module.NovaModule;
 
 public class MCFLeaderboard extends NovaModule {
 	private static MCFLeaderboard instance;

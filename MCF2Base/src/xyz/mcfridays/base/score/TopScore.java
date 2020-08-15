@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.teams.Team;
 import xyz.mcfridays.base.team.MCFTeam;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.teams.Team;
 
 public class TopScore {
 	public static ArrayList<PlayerScoreData> getPlayerTopScore(int maxEntries) {

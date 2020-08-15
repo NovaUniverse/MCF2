@@ -20,14 +20,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.rayzr522.jsonmessage.JSONMessage;
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.NovaModule;
+import net.zeeraa.novacore.module.modules.multiverse.MultiverseManager;
+import net.zeeraa.novacore.module.modules.multiverse.MultiverseWorld;
+import net.zeeraa.novacore.module.modules.multiverse.WorldUnloadOption;
+import net.zeeraa.novacore.utils.PlayerUtils;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.lobby.MCFLobby;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.NovaModule;
-import xyz.zeeraa.novacore.module.modules.multiverse.MultiverseManager;
-import xyz.zeeraa.novacore.module.modules.multiverse.MultiverseWorld;
-import xyz.zeeraa.novacore.module.modules.multiverse.WorldUnloadOption;
-import xyz.zeeraa.novacore.utils.PlayerUtils;
 
 public class DuelsManager extends NovaModule implements Listener {
 	private static DuelsManager instance;

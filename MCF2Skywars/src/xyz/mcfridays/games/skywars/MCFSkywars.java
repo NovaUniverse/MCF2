@@ -12,19 +12,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.ModuleManager;
+import net.zeeraa.novacore.module.modules.compass.CompassTracker;
+import net.zeeraa.novacore.module.modules.compass.event.CompassTrackingEvent;
+import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.module.modules.game.map.mapmodule.MapModuleManager;
+import net.zeeraa.novacore.module.modules.game.mapselector.selectors.guivoteselector.GUIMapVote;
+import net.zeeraa.novacore.module.modules.gamelobby.GameLobby;
 import xyz.mcfridays.games.skywars.game.Skywars;
 import xyz.mcfridays.games.skywars.loottable.islandloottable.SkywarsLootLoader;
 import xyz.mcfridays.games.skywars.mapmodule.SkywarsIslandSpecialLootTableMapModule;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.ModuleManager;
-import xyz.zeeraa.novacore.module.modules.compass.CompassTracker;
-import xyz.zeeraa.novacore.module.modules.compass.event.CompassTrackingEvent;
-import xyz.zeeraa.novacore.module.modules.game.GameManager;
-import xyz.zeeraa.novacore.module.modules.game.map.mapmodule.MapModuleManager;
-import xyz.zeeraa.novacore.module.modules.game.mapselector.selectors.guivoteselector.GUIMapVote;
-import xyz.zeeraa.novacore.module.modules.gamelobby.GameLobby;
 
 public class MCFSkywars extends JavaPlugin implements Listener {
 	private Skywars game;

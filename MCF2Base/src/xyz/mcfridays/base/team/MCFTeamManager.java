@@ -15,11 +15,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
+import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.teams.TeamManager;
 import xyz.mcfridays.base.MCF;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
-import xyz.zeeraa.novacore.teams.Team;
-import xyz.zeeraa.novacore.teams.TeamManager;
 
 public class MCFTeamManager extends TeamManager implements Listener {
 	public static final int TEAM_COUNT = 12;

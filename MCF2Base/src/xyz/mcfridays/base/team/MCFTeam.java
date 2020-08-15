@@ -2,8 +2,8 @@ package xyz.mcfridays.base.team;
 
 import org.bukkit.ChatColor;
 
+import net.zeeraa.novacore.teams.Team;
 import xyz.mcfridays.base.misc.MCFPlayerNameCache;
-import xyz.zeeraa.novacore.teams.Team;
 
 public class MCFTeam extends Team {
 	private int teamNumber;

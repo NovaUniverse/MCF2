@@ -3,10 +3,10 @@ package xyz.mcfridays.base.deathmessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import net.zeeraa.novacore.module.modules.game.eliminationmessage.TeamEliminationMessage;
+import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.utils.TextUtils;
 import xyz.mcfridays.base.team.MCFTeam;
-import xyz.zeeraa.novacore.module.modules.game.eliminationmessage.TeamEliminationMessage;
-import xyz.zeeraa.novacore.teams.Team;
-import xyz.zeeraa.novacore.utils.TextUtils;
 
 public class MCFTeamEliminationMessage implements TeamEliminationMessage {
 	@Override

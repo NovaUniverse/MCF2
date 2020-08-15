@@ -6,9 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
+import net.zeeraa.novacore.command.AllowedSenders;
+import net.zeeraa.novacore.command.NovaCommand;
 import xyz.mcfridays.base.lobby.duels.DuelsManager;
-import xyz.zeeraa.novacore.command.AllowedSenders;
-import xyz.zeeraa.novacore.command.NovaCommand;
 
 public class DuelCommand extends NovaCommand {
 	public DuelCommand() {

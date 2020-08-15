@@ -12,22 +12,30 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.ModuleManager;
+import net.zeeraa.novacore.module.modules.compass.CompassTracker;
+import net.zeeraa.novacore.module.modules.compass.event.CompassTrackingEvent;
+import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.module.modules.game.mapselector.selectors.guivoteselector.GUIMapVote;
+import net.zeeraa.novacore.module.modules.gamelobby.GameLobby;
 import xyz.mcfridays.games.hungergames.game.Hungergames;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.ModuleManager;
-import xyz.zeeraa.novacore.module.modules.compass.CompassTracker;
-import xyz.zeeraa.novacore.module.modules.compass.event.CompassTrackingEvent;
-import xyz.zeeraa.novacore.module.modules.game.GameManager;
-import xyz.zeeraa.novacore.module.modules.game.mapselector.selectors.guivoteselector.GUIMapVote;
-import xyz.zeeraa.novacore.module.modules.gamelobby.GameLobby;
 
 public class MCFHungergames extends JavaPlugin implements Listener {
+	private static MCFHungergames instance;
+	
+	public static MCFHungergames getInstance() {
+		return instance;
+	}
+	
 	private Hungergames game;
 
 	@Override
 	public void onEnable() {
+		MCFHungergames.instance = this;
+		
 		File mapFolder = new File(this.getDataFolder().getPath() + File.separator + "Maps");
 		File worldFolder = new File(this.getDataFolder().getPath() + File.separator + "Worlds");
 		File lootTableFolder = new File(this.getDataFolder().getPath() + File.separator + "LootTables");

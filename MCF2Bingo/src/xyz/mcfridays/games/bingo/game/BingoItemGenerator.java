@@ -6,7 +6,7 @@ import java.util.Collections;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import xyz.zeeraa.novacore.utils.ItemBuilder;
+import net.zeeraa.novacore.utils.ItemBuilder;
 
 public class BingoItemGenerator {
 	private static ArrayList<ItemStack> possibleItems = new ArrayList<ItemStack>();

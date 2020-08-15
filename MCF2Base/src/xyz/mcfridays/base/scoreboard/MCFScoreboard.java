@@ -5,16 +5,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import net.zeeraa.novacore.NovaCore;
+import net.zeeraa.novacore.module.NovaModule;
+import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
+import net.zeeraa.novacore.utils.TextUtils;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.team.MCFTeam;
 import xyz.mcfridays.base.team.MCFTeamManager;
-import xyz.zeeraa.novacore.NovaCore;
-import xyz.zeeraa.novacore.module.NovaModule;
-import xyz.zeeraa.novacore.module.modules.game.GameManager;
-import xyz.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
-import xyz.zeeraa.novacore.utils.TextUtils;
 
 public class MCFScoreboard extends NovaModule implements Listener {
 	private int taskId;

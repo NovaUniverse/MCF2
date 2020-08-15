@@ -3,11 +3,11 @@ package xyz.mcfridays.games.bingo.game.messages.defaults;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.utils.TextUtils;
 import xyz.mcfridays.games.bingo.game.messages.TeamCompleteGameMessage;
 import xyz.mcfridays.games.bingo.game.messages.TeamFailMessage;
 import xyz.mcfridays.games.bingo.game.messages.TeamFindItemMessage;
-import xyz.zeeraa.novacore.teams.Team;
-import xyz.zeeraa.novacore.utils.TextUtils;
 
 public class DefaultTeamMessages implements TeamFindItemMessage, TeamCompleteGameMessage, TeamFailMessage {
 	@Override

@@ -6,10 +6,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import net.zeeraa.novacore.module.NovaModule;
+import net.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
+import net.zeeraa.novacore.utils.ProjectileUtils;
 import xyz.mcfridays.base.crafting.database.MCFDB;
-import xyz.zeeraa.novacore.module.NovaModule;
-import xyz.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
-import xyz.zeeraa.novacore.utils.ProjectileUtils;
 
 public class KillListener extends NovaModule implements Listener {
 	@Override

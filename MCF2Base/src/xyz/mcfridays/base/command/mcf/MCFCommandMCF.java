@@ -4,10 +4,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
+import net.zeeraa.novacore.command.AllowedSenders;
+import net.zeeraa.novacore.command.NovaCommand;
 import xyz.mcfridays.base.command.mcf.sendall.MCFSubcommandMCFSendall;
 import xyz.mcfridays.base.command.mcf.server.MCFSubcommandMCFServer;
-import xyz.zeeraa.novacore.command.AllowedSenders;
-import xyz.zeeraa.novacore.command.NovaCommand;
 
 public class MCFCommandMCF extends NovaCommand {
 	public MCFCommandMCF() {

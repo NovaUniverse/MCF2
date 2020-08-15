@@ -12,9 +12,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.module.NovaModule;
 import xyz.mcfridays.base.MCF;
-import xyz.zeeraa.novacore.log.Log;
-import xyz.zeeraa.novacore.module.NovaModule;
 
 public class MCFPlayerKillCache extends NovaModule implements Listener {
 	private static MCFPlayerKillCache instance;

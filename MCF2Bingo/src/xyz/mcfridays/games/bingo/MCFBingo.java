@@ -6,12 +6,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.zeeraa.novacore.command.CommandRegistry;
+import net.zeeraa.novacore.module.ModuleManager;
+import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.module.modules.gamelobby.GameLobby;
 import xyz.mcfridays.games.bingo.command.BingoCommand;
 import xyz.mcfridays.games.bingo.game.Bingo;
-import xyz.zeeraa.novacore.command.CommandRegistry;
-import xyz.zeeraa.novacore.module.ModuleManager;
-import xyz.zeeraa.novacore.module.modules.game.GameManager;
-import xyz.zeeraa.novacore.module.modules.gamelobby.GameLobby;
 
 public class MCFBingo extends JavaPlugin implements Listener {
 	// --- Global instance ---
