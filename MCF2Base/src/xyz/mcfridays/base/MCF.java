@@ -212,8 +212,6 @@ public class MCF extends JavaPlugin implements Listener {
 			Log.info("Listener EdibleHeads registered");
 			Bukkit.getPluginManager().registerEvents(new EdibleHeads(), this);
 		}
-
-		CommandRegistry.registerCommand(new MCFCommandMCF());
 		
 		GameManager.getInstance().setUseTeams(true); // TODO: Add a mode without teams
 
@@ -256,6 +254,8 @@ public class MCF extends JavaPlugin implements Listener {
 
 		NetherBoardScoreboard.getInstance().setGlobalLine(14, ChatColor.YELLOW + "http://mcfridays.xyz");
 
+		CommandRegistry.registerCommand(new MCFCommandMCF());
+		
 		relatedPlugins.add(this);
 		relatedPlugins.add(NovaCore.getInstance());
 	}

@@ -4,12 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
+import net.novauniverse.games.bingo.NovaBingo;
+import net.novauniverse.games.bingo.game.Bingo;
 import net.zeeraa.novacore.module.NovaModule;
 import net.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
 import net.zeeraa.novacore.utils.TextUtils;
 import xyz.mcfridays.base.MCF;
-import xyz.mcfridays.games.bingo.MCFBingo;
-import xyz.mcfridays.games.bingo.game.Bingo;
 
 public class MCFBingoManger extends NovaModule implements Listener {
 	public static final int BINGO_TIMER_AND_GENERATION_LINE = 6;
@@ -36,7 +36,7 @@ public class MCFBingoManger extends NovaModule implements Listener {
 			taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MCF.getInstance(), new Runnable() {
 				@Override
 				public void run() {
-					Bingo bingo = MCFBingo.getInstance().getGame();
+					Bingo bingo = NovaBingo.getInstance().getGame();
 
 					if (!bingo.getWorldPreGenerator().isFinished()) {
 						worldGenerationShown = true;

@@ -19,6 +19,8 @@ public class MCFSubcommandMCFServer extends NovaSubCommand {
 		setPermission("mcf.command.mcf.server");
 		setPermissionDefaultValue(PermissionDefault.OP);
 		setPermissionDescription("Access to the mcf server command");
+		
+		
 
 		addHelpSubCommand();
 	}

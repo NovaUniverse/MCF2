@@ -1,6 +1,6 @@
-name: MCF2Hungergames
-main: xyz.mcfridays.games.hungergames.MCFHungergames
-description: MCF Hungergames
+name: NovaHungergames
+main: net.novauniverse.games.hungergames.NovaHungergames
+description: Novauniverse Hungergames
 version: 1.0
 depend: [NovaCore]
-softdepend: [MCF2Base]
+softdepend: [MCF2Base, X2ABase]

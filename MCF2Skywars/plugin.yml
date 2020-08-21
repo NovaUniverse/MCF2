@@ -1,6 +1,6 @@
-name: MCF2Skywars
-main: xyz.mcfridays.games.skywars.MCFSkywars
-description: MCF Skywars
+name: NovaSkywars
+main: net.novauniverse.games.skywars.NovaSkywars
+description: Novauniverse Skywars
 version: 1.0
 depend: [NovaCore]
-softdepend: [MCF2Base]
+softdepend: [MCF2Base, X2ABase]

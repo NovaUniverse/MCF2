@@ -1,6 +1,6 @@
-name: MCF2Bingo
-main: xyz.mcfridays.games.bingo.MCFBingo
-description: MCF Bingo plugin
+name: NovaBingo
+main: net.novauniverse.games.bingo.NovaBingo
+description: Novauniverse Bingo plugin
 version: 1.0
 depend: [NovaCore]
 softdepend: [MCF2Base]

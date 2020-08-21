@@ -1,0 +1,5 @@
+name: MCFDiscordLinker
+main: xyz.mcfridays.linkserver.MCFLinkServer
+description: Yeet
+depend: [NovaCore]
+version: 1.0
