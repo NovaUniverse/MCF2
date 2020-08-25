@@ -23,6 +23,8 @@ public class DuelInstance {
 
 	private DuelStage stage;
 
+	private BasicTimer endTimer;
+
 	public void sendMessage(String message) {
 		if (world != null) {
 			for (Player player : world.getWorld().getPlayers()) {
@@ -38,6 +40,15 @@ public class DuelInstance {
 
 		this.stage = DuelStage.IDLE;
 
+		this.endTimer = new BasicTimer(180);
+
+		endTimer.addFinishCallback(new Callback() {
+			@Override
+			public void execute() {
+				sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Duel canceled due to the time limit being reached");
+				setStage(DuelStage.ENDED);
+			}
+		});
 	}
 
 	public UUID getInstanceUUID() {
@@ -113,13 +124,13 @@ public class DuelInstance {
 			timer.addTickCallback(new TickCallback() {
 				@Override
 				public void execute(int timeLeft) {
-					if(timeLeft == 0) {
+					if (timeLeft == 0) {
 						return;
 					}
-					
+
 					sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + timeLeft);
 					for (Player player : world.getWorld().getPlayers()) {
-						if(NovaCore.getInstance().getActionBar() != null) {
+						if (NovaCore.getInstance().getActionBar() != null) {
 							NovaCore.getInstance().getActionBar().sendMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + timeLeft);
 						}
 						player.playSound(player.getLocation(), Sound.NOTE_PLING, 1F, 1F);
@@ -144,7 +155,7 @@ public class DuelInstance {
 
 					for (Player player : world.getWorld().getPlayers()) {
 						player.playSound(player.getLocation(), Sound.NOTE_PLING, 1F, 2F);
-						if(NovaCore.getInstance().getActionBar() != null) {
+						if (NovaCore.getInstance().getActionBar() != null) {
 							NovaCore.getInstance().getActionBar().sendMessage(player, ChatColor.GOLD + "" + ChatColor.BOLD + "GO");
 						}
 					}
@@ -157,10 +168,15 @@ public class DuelInstance {
 			break;
 
 		case INGAME:
-
+			endTimer.start();
+			sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "The duel will end in 3 minutes");
 			break;
 
 		case ENDED:
+			if (endTimer.isRunning()) {
+				endTimer.cancel();
+			}
+
 			BasicTimer timer2 = new BasicTimer(5, 20L);
 
 			timer2.addFinishCallback(new Callback() {

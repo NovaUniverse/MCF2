@@ -8,7 +8,7 @@ import org.bukkit.entity.Projectile;
 
 import net.zeeraa.novacore.NovaCore;
 import net.zeeraa.novacore.module.modules.game.elimination.PlayerEliminationReason;
-import net.zeeraa.novacore.module.modules.game.eliminationmessage.PlayerEliminationMessage;
+import net.zeeraa.novacore.module.modules.game.messages.PlayerEliminationMessage;
 import net.zeeraa.novacore.teams.Team;
 
 public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {

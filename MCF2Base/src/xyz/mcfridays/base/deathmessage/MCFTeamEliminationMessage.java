@@ -3,7 +3,7 @@ package xyz.mcfridays.base.deathmessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import net.zeeraa.novacore.module.modules.game.eliminationmessage.TeamEliminationMessage;
+import net.zeeraa.novacore.module.modules.game.messages.TeamEliminationMessage;
 import net.zeeraa.novacore.teams.Team;
 import net.zeeraa.novacore.utils.TextUtils;
 import xyz.mcfridays.base.team.MCFTeam;

@@ -42,6 +42,7 @@ import net.zeeraa.novacore.teams.Team;
 import net.zeeraa.novacore.utils.BungeecordUtils;
 import xyz.mcfridays.base.bingo.MCFBingoManger;
 import xyz.mcfridays.base.command.mcf.MCFCommandMCF;
+import xyz.mcfridays.base.command.top.TopCommand;
 import xyz.mcfridays.base.crafting.EnchantedGoldenAppleRecipe;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
@@ -81,6 +82,8 @@ public class MCF extends JavaPlugin implements Listener {
 
 	private String lobbyServer;
 
+	private boolean topEnabled;
+
 	public static MCF getInstance() {
 		return instance;
 	}
@@ -111,6 +114,10 @@ public class MCF extends JavaPlugin implements Listener {
 
 	public void setServerAsActive(boolean active) {
 		MCFDB.setActiveServer(active ? getServerName() : null);
+	}
+
+	public boolean isTopEnabled() {
+		return topEnabled;
 	}
 
 	@Override
@@ -183,7 +190,7 @@ public class MCF extends JavaPlugin implements Listener {
 		ModuleManager.loadModule(KillListener.class, true);
 		ModuleManager.loadModule(MCFLeaderboard.class, true);
 		ModuleManager.loadModule(MCFScoreboard.class, true);
-		
+
 		ModuleManager.loadModule(MCFPlayerNameCache.class, true);
 		ModuleManager.loadModule(MCFPlayerKillCache.class, true);
 
@@ -212,7 +219,7 @@ public class MCF extends JavaPlugin implements Listener {
 			Log.info("Listener EdibleHeads registered");
 			Bukkit.getPluginManager().registerEvents(new EdibleHeads(), this);
 		}
-		
+
 		GameManager.getInstance().setUseTeams(true); // TODO: Add a mode without teams
 
 		// -=-=-= lobby =-=-=-
@@ -255,7 +262,8 @@ public class MCF extends JavaPlugin implements Listener {
 		NetherBoardScoreboard.getInstance().setGlobalLine(14, ChatColor.YELLOW + "http://mcfridays.xyz");
 
 		CommandRegistry.registerCommand(new MCFCommandMCF());
-		
+		CommandRegistry.registerCommand(new TopCommand());
+
 		relatedPlugins.add(this);
 		relatedPlugins.add(NovaCore.getInstance());
 	}
@@ -279,9 +287,13 @@ public class MCF extends JavaPlugin implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onGameLoaded(GameLoadedEvent e) {
 		NetherBoardScoreboard.getInstance().setGlobalLine(0, ChatColor.YELLOW + "" + ChatColor.BOLD + e.getGame().getDisplayName());
-		
-		if(e.getGame().getName().equalsIgnoreCase("bingo")) {
+
+		if (e.getGame().getName().equalsIgnoreCase("bingo")) {
 			ModuleManager.enable(MCFBingoManger.class);
+		}
+
+		if (e.getGame().getName().equalsIgnoreCase("bingo")) {
+			topEnabled = true;
 		}
 	}
 
@@ -303,7 +315,7 @@ public class MCF extends JavaPlugin implements Listener {
 			Log.error("Failed to reset active server name");
 			ex.printStackTrace();
 		}
-		
+
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {

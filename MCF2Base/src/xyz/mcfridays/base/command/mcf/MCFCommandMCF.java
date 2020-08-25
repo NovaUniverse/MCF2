@@ -6,6 +6,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.command.AllowedSenders;
 import net.zeeraa.novacore.command.NovaCommand;
+import xyz.mcfridays.base.command.mcf.exportresult.MCFSubcommandMCFExportResult;
 import xyz.mcfridays.base.command.mcf.importdiscordteams.MCFSubcommandMCFImportDiscordTeams;
 import xyz.mcfridays.base.command.mcf.sendall.MCFSubcommandMCFSendall;
 import xyz.mcfridays.base.command.mcf.server.MCFSubcommandMCFServer;
@@ -26,6 +27,7 @@ public class MCFCommandMCF extends NovaCommand {
 		addSubCommand(new MCFSubcommandMCFSendall());
 		addSubCommand(new MCFSubcommandMCFServer());
 		addSubCommand(new MCFSubcommandMCFImportDiscordTeams());
+		addSubCommand(new MCFSubcommandMCFExportResult());
 		
 		addHelpSubCommand();
 	}
