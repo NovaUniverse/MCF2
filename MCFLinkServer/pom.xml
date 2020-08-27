@@ -41,7 +41,7 @@
 
 		<dependency>
 			<groupId>net.zeeraa.novacore</groupId>
-			<artifactId>novacore</artifactId>
+			<artifactId>novacore-spigot</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>

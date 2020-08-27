@@ -17,9 +17,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.zeeraa.novacore.database.DBConnection;
-import net.zeeraa.novacore.database.DBCredentials;
-import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.commons.database.DBConnection;
+import net.zeeraa.novacore.commons.database.DBCredentials;
+import net.zeeraa.novacore.commons.log.Log;
 
 public class MCFLinkServer extends JavaPlugin implements Listener {
 	private DBConnection dbc;
