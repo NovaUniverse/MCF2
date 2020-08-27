@@ -41,6 +41,7 @@ import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboar
 import net.zeeraa.novacore.spigot.teams.Team;
 import net.zeeraa.novacore.spigot.utils.BungeecordUtils;
 import xyz.mcfridays.base.bingo.MCFBingoManger;
+import xyz.mcfridays.base.command.database.DatabaseCommand;
 import xyz.mcfridays.base.command.mcf.MCFCommandMCF;
 import xyz.mcfridays.base.command.top.FlyCommand;
 import xyz.mcfridays.base.command.top.InvseeCommand;
@@ -267,6 +268,7 @@ public class MCF extends JavaPlugin implements Listener {
 		CommandRegistry.registerCommand(new TopCommand());
 		CommandRegistry.registerCommand(new FlyCommand());
 		CommandRegistry.registerCommand(new InvseeCommand());
+		CommandRegistry.registerCommand(new DatabaseCommand());
 
 		relatedPlugins.add(this);
 		relatedPlugins.add(NovaCore.getInstance());
