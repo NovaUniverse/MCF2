@@ -20,12 +20,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.zeeraa.novacore.log.Log;
-import net.zeeraa.novacore.module.NovaModule;
-import net.zeeraa.novacore.module.modules.multiverse.MultiverseManager;
-import net.zeeraa.novacore.module.modules.multiverse.MultiverseWorld;
-import net.zeeraa.novacore.module.modules.multiverse.WorldUnloadOption;
-import net.zeeraa.novacore.utils.PlayerUtils;
+import net.zeeraa.novacore.commons.log.Log;
+import net.zeeraa.novacore.spigot.module.NovaModule;
+import net.zeeraa.novacore.spigot.module.modules.multiverse.MultiverseManager;
+import net.zeeraa.novacore.spigot.module.modules.multiverse.MultiverseWorld;
+import net.zeeraa.novacore.spigot.module.modules.multiverse.WorldUnloadOption;
+import net.zeeraa.novacore.spigot.utils.PlayerUtils;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.lobby.MCFLobby;
 

@@ -17,7 +17,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/NovaBingo"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/NovaCore"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/NovaCoreAbstraction"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

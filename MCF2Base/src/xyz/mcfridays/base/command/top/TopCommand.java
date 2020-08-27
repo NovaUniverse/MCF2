@@ -14,10 +14,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-import net.zeeraa.novacore.command.AllowedSenders;
-import net.zeeraa.novacore.command.NovaCommand;
-import net.zeeraa.novacore.module.ModuleManager;
-import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.spigot.command.AllowedSenders;
+import net.zeeraa.novacore.spigot.command.NovaCommand;
+import net.zeeraa.novacore.spigot.module.ModuleManager;
+import net.zeeraa.novacore.spigot.module.modules.game.GameManager;
 import xyz.mcfridays.base.MCF;
 
 public class TopCommand extends NovaCommand {

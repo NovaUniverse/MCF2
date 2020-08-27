@@ -8,9 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-import net.zeeraa.novacore.command.AllowedSenders;
-import net.zeeraa.novacore.command.NovaCommand;
-import net.zeeraa.novacore.utils.BungeecordUtils;
+import net.zeeraa.novacore.spigot.command.AllowedSenders;
+import net.zeeraa.novacore.spigot.command.NovaCommand;
+import net.zeeraa.novacore.spigot.utils.BungeecordUtils;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 
 public class MCFCommandReconnect extends NovaCommand {

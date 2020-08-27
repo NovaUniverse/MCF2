@@ -16,9 +16,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import net.zeeraa.novacore.log.Log;
-import net.zeeraa.novacore.module.NovaModule;
-import net.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
+import net.zeeraa.novacore.commons.log.Log;
+import net.zeeraa.novacore.spigot.module.NovaModule;
+import net.zeeraa.novacore.spigot.module.modules.game.events.PlayerEliminatedEvent;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.team.MCFTeam;
 

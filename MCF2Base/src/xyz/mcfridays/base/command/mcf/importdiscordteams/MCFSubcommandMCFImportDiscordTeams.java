@@ -4,9 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
-import net.zeeraa.novacore.command.AllowedSenders;
-import net.zeeraa.novacore.command.NovaSubCommand;
-import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.commons.log.Log;
+import net.zeeraa.novacore.spigot.command.AllowedSenders;
+import net.zeeraa.novacore.spigot.command.NovaSubCommand;
 import xyz.mcfridays.base.discord.DiscordTeamManager;
 
 public class MCFSubcommandMCFImportDiscordTeams extends NovaSubCommand {

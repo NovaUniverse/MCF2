@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
-import net.zeeraa.novacore.NovaCore;
-import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.teams.Team;
 import xyz.mcfridays.base.team.MCFTeam;
 
 public class TopScore {

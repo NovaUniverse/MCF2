@@ -6,9 +6,9 @@ import org.bukkit.event.Listener;
 
 import net.novauniverse.games.bingo.NovaBingo;
 import net.novauniverse.games.bingo.game.Bingo;
-import net.zeeraa.novacore.module.NovaModule;
-import net.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
-import net.zeeraa.novacore.utils.TextUtils;
+import net.zeeraa.novacore.commons.utils.TextUtils;
+import net.zeeraa.novacore.spigot.module.NovaModule;
+import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
 import xyz.mcfridays.base.MCF;
 
 public class MCFBingoManger extends NovaModule implements Listener {

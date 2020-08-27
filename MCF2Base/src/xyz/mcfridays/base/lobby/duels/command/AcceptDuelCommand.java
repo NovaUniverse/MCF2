@@ -8,9 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-import net.zeeraa.novacore.command.AllowedSenders;
-import net.zeeraa.novacore.command.NovaCommand;
-import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.commons.log.Log;
+import net.zeeraa.novacore.spigot.command.AllowedSenders;
+import net.zeeraa.novacore.spigot.command.NovaCommand;
 import xyz.mcfridays.base.lobby.duels.DuelsManager;
 import xyz.mcfridays.base.lobby.duels.InviteResult;
 

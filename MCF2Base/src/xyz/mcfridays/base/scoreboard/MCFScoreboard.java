@@ -5,11 +5,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import net.zeeraa.novacore.NovaCore;
-import net.zeeraa.novacore.module.NovaModule;
-import net.zeeraa.novacore.module.modules.game.GameManager;
-import net.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
-import net.zeeraa.novacore.utils.TextUtils;
+import net.zeeraa.novacore.commons.utils.TextUtils;
+import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.module.NovaModule;
+import net.zeeraa.novacore.spigot.module.modules.game.GameManager;
+import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.score.ScoreManager;

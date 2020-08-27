@@ -6,9 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import net.zeeraa.novacore.module.NovaModule;
-import net.zeeraa.novacore.module.modules.game.events.PlayerEliminatedEvent;
-import net.zeeraa.novacore.utils.ProjectileUtils;
+import net.zeeraa.novacore.spigot.module.NovaModule;
+import net.zeeraa.novacore.spigot.module.modules.game.events.PlayerEliminatedEvent;
+import net.zeeraa.novacore.spigot.utils.ProjectileUtils;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 
 public class KillListener extends NovaModule implements Listener {

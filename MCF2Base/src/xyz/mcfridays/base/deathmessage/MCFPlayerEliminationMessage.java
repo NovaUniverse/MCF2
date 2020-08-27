@@ -6,10 +6,10 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 
-import net.zeeraa.novacore.NovaCore;
-import net.zeeraa.novacore.module.modules.game.elimination.PlayerEliminationReason;
-import net.zeeraa.novacore.module.modules.game.messages.PlayerEliminationMessage;
-import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.module.modules.game.elimination.PlayerEliminationReason;
+import net.zeeraa.novacore.spigot.module.modules.game.messages.PlayerEliminationMessage;
+import net.zeeraa.novacore.spigot.teams.Team;
 
 public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 	@Override
@@ -60,6 +60,8 @@ public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 				extra += "was sent to the gulag by " + killer.getName();
 			} else if (killer.getUniqueId().toString().equalsIgnoreCase("22a9eca8-2221-4bc9-b463-de0f3a0cc652")) {
 				extra += "was deleted by " + killer.getName();
+			} else if (killer.getUniqueId().toString().equalsIgnoreCase("1a3d3d3c-7083-4db5-85cb-4046160152a1") || killer.getUniqueId().toString().equalsIgnoreCase("83c3d18d-3b17-4e9e-ba7b-8887d5fc5183") || killer.getUniqueId().toString().equalsIgnoreCase("39e0dea8-43f7-4983-9399-fc0048b4c556")) {
+				extra += "called hax on " + killer.getName();
 			} else {
 				extra += "was killed " + killerName;
 			}
@@ -70,6 +72,6 @@ public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 			break;
 		}
 
-		Bukkit.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "Player Eliminated> " + playerColor + ChatColor.BOLD + player.getName() + " " + net.md_5.bungee.api.ChatColor.GOLD + ChatColor.BOLD + extra);
+		Bukkit.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "Player Eliminated> " + playerColor + ChatColor.BOLD + player.getName() + " " + ChatColor.GOLD + ChatColor.BOLD + extra);
 	}
 }

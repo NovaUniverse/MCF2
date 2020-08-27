@@ -15,10 +15,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.zeeraa.novacore.log.Log;
-import net.zeeraa.novacore.module.modules.scoreboard.NetherBoardScoreboard;
-import net.zeeraa.novacore.teams.Team;
-import net.zeeraa.novacore.teams.TeamManager;
+import net.zeeraa.novacore.commons.log.Log;
+import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
+import net.zeeraa.novacore.spigot.teams.Team;
+import net.zeeraa.novacore.spigot.teams.TeamManager;
 import xyz.mcfridays.base.MCF;
 
 public class MCFTeamManager extends TeamManager implements Listener {

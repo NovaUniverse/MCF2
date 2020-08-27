@@ -9,11 +9,11 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import net.zeeraa.novacore.NovaCore;
-import net.zeeraa.novacore.callbacks.Callback;
-import net.zeeraa.novacore.module.modules.multiverse.MultiverseWorld;
-import net.zeeraa.novacore.timers.BasicTimer;
-import net.zeeraa.novacore.timers.TickCallback;
+import net.zeeraa.novacore.commons.timers.TickCallback;
+import net.zeeraa.novacore.commons.utils.Callback;
+import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.module.modules.multiverse.MultiverseWorld;
+import net.zeeraa.novacore.spigot.timers.BasicTimer;
 import xyz.mcfridays.base.MCF;
 
 public class DuelInstance {

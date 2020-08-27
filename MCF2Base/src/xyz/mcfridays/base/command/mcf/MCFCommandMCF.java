@@ -4,8 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
-import net.zeeraa.novacore.command.AllowedSenders;
-import net.zeeraa.novacore.command.NovaCommand;
+import net.zeeraa.novacore.spigot.command.AllowedSenders;
+import net.zeeraa.novacore.spigot.command.NovaCommand;
 import xyz.mcfridays.base.command.mcf.exportresult.MCFSubcommandMCFExportResult;
 import xyz.mcfridays.base.command.mcf.importdiscordteams.MCFSubcommandMCFImportDiscordTeams;
 import xyz.mcfridays.base.command.mcf.sendall.MCFSubcommandMCFSendall;

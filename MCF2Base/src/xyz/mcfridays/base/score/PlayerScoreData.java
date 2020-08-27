@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 
-import net.zeeraa.novacore.NovaCore;
-import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.teams.Team;
 import xyz.mcfridays.base.misc.MCFPlayerNameCache;
 
 public class PlayerScoreData extends ScoreData {

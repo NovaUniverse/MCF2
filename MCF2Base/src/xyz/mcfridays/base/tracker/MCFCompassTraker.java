@@ -6,10 +6,10 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import net.zeeraa.novacore.NovaCore;
-import net.zeeraa.novacore.module.modules.compass.CompassTarget;
-import net.zeeraa.novacore.module.modules.compass.CompassTrackerTarget;
-import net.zeeraa.novacore.module.modules.game.GameManager;
+import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.module.modules.compass.CompassTarget;
+import net.zeeraa.novacore.spigot.module.modules.compass.CompassTrackerTarget;
+import net.zeeraa.novacore.spigot.module.modules.game.GameManager;
 import xyz.mcfridays.base.team.MCFTeam;
 
 public class MCFCompassTraker implements CompassTrackerTarget {

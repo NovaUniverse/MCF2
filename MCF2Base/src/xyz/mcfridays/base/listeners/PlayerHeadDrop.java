@@ -10,7 +10,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import net.zeeraa.novacore.utils.ItemBuilder;
+import net.zeeraa.novacore.spigot.utils.ItemBuilder;
 
 public class PlayerHeadDrop implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)

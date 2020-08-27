@@ -2,7 +2,7 @@ package xyz.mcfridays.base.team;
 
 import org.bukkit.ChatColor;
 
-import net.zeeraa.novacore.teams.Team;
+import net.zeeraa.novacore.spigot.teams.Team;
 import xyz.mcfridays.base.misc.MCFPlayerNameCache;
 
 public class MCFTeam extends Team {

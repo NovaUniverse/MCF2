@@ -10,7 +10,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
-import net.zeeraa.novacore.module.NovaModule;
+import net.zeeraa.novacore.spigot.module.NovaModule;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.score.PlayerScoreData;
 import xyz.mcfridays.base.score.TeamScoreData;

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import net.zeeraa.novacore.log.Log;
+import net.zeeraa.novacore.commons.log.Log;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.dataexporter.data.PlayerResult;
 import xyz.mcfridays.base.dataexporter.data.TeamResult;
