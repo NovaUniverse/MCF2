@@ -1,6 +1,7 @@
 package xyz.mcfridays.base.lobby;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -28,6 +29,7 @@ import org.bukkit.util.Vector;
 
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.zeeraa.novacore.commons.log.Log;
+import net.zeeraa.novacore.commons.utils.RandomGenerator;
 import net.zeeraa.novacore.spigot.NovaCore;
 import net.zeeraa.novacore.spigot.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
 import net.zeeraa.novacore.spigot.command.CommandRegistry;
@@ -36,6 +38,7 @@ import net.zeeraa.novacore.spigot.module.modules.multiverse.MultiverseManager;
 import net.zeeraa.novacore.spigot.module.modules.multiverse.MultiverseWorld;
 import net.zeeraa.novacore.spigot.module.modules.multiverse.WorldUnloadOption;
 import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
+import net.zeeraa.novacore.spigot.tasks.SimpleTask;
 import net.zeeraa.novacore.spigot.teams.Team;
 import net.zeeraa.novacore.spigot.utils.ItemBuilder;
 import net.zeeraa.novacore.spigot.utils.PlayerUtils;
@@ -55,7 +58,11 @@ public class MCFLobby extends NovaModule implements Listener {
 	private int taskId1;
 	private int taskId2;
 
+	private SimpleTask calmDownCageResetTimer;
+
 	private MultiverseWorld multiverseWorld;
+
+	private HashMap<UUID, Integer> theCalmDownCageCounter;
 
 	public static MCFLobby getInstance() {
 		return instance;
@@ -100,6 +107,7 @@ public class MCFLobby extends NovaModule implements Listener {
 					}
 				}
 			}, 5L, 5L);
+
 		}
 
 		if (taskId2 == -1) {
@@ -118,7 +126,17 @@ public class MCFLobby extends NovaModule implements Listener {
 				}
 			}, 200L, 200L);
 		}
+		
+		theCalmDownCageCounter = new HashMap<UUID, Integer>();
 
+		calmDownCageResetTimer = new SimpleTask(new Runnable() {
+			@Override
+			public void run() {
+				theCalmDownCageCounter.clear();
+			}
+		}, 900L, 900L);
+		calmDownCageResetTimer.start();
+		
 		CommandRegistry.registerCommand(new MCFCommandReconnect());
 	}
 
@@ -248,6 +266,18 @@ public class MCFLobby extends NovaModule implements Listener {
 							Player p = e.getPlayer();
 
 							if (!p.getInventory().contains(Material.FISHING_ROD)) {
+								if (!theCalmDownCageCounter.containsKey(p.getUniqueId())) {
+									theCalmDownCageCounter.put(p.getUniqueId(), 1);
+								} else {
+									int newVal = theCalmDownCageCounter.get(p.getUniqueId()) + 1;
+									theCalmDownCageCounter.put(p.getUniqueId(), newVal);
+
+									if (newVal > 5) {
+										p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + (RandomGenerator.generate(0, 5) == 4 ? "You have committed crimes against skyrim and her people. what say you in your defense" : "Stop you have violated the law pay the court a fine or serve your sentance"));
+										p.teleport(new Location(lobbyLocation.getWorld(), 28.5, 27, 46.5, -90, 0));
+									}
+								}
+
 								p.getInventory().addItem(new ItemBuilder(Material.FISHING_ROD).setUnbreakable(true).build());
 							}
 						}

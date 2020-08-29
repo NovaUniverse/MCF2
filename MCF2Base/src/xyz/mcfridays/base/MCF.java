@@ -50,6 +50,7 @@ import xyz.mcfridays.base.crafting.EnchantedGoldenAppleRecipe;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
 import xyz.mcfridays.base.deathmessage.MCFTeamEliminationMessage;
+import xyz.mcfridays.base.goldenhead.GoldenHead;
 import xyz.mcfridays.base.kills.KillListener;
 import xyz.mcfridays.base.kills.MCFPlayerKillCache;
 import xyz.mcfridays.base.leaderboard.MCFLeaderboard;
@@ -196,6 +197,8 @@ public class MCF extends JavaPlugin implements Listener {
 
 		ModuleManager.loadModule(MCFPlayerNameCache.class, true);
 		ModuleManager.loadModule(MCFPlayerKillCache.class, true);
+		
+		ModuleManager.loadModule(GoldenHead.class, true);
 
 		ModuleManager.loadModule(MCFBingoManger.class);
 		ModuleManager.loadModule(MCFLobby.class);
