@@ -18,6 +18,8 @@ public class InvseeCommand extends NovaCommand {
 		setAllowedSenders(AllowedSenders.PLAYERS);
 		
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

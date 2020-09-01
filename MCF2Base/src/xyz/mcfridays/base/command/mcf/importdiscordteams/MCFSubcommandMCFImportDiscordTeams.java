@@ -23,6 +23,8 @@ public class MCFSubcommandMCFImportDiscordTeams extends NovaSubCommand {
 		setEmptyTabMode(true);
 
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

@@ -24,6 +24,8 @@ public class DatabaseCommand extends NovaCommand {
 		addSubCommand(new DatabaseCommandSubCommandStatus());
 		
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

@@ -31,6 +31,8 @@ public class TopCommand extends NovaCommand {
 		setAllowedSenders(AllowedSenders.PLAYERS);
 
 		setEmptyTabMode(true);
+		
+		this.setFilterAutocomplete(true);
 
 		cooldownList = new HashMap<UUID, Integer>();
 

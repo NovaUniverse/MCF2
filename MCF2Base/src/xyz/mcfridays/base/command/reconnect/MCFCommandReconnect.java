@@ -21,6 +21,8 @@ public class MCFCommandReconnect extends NovaCommand {
 		this.setPermission("mcf.command.reconnect");
 		this.setPermissionDefaultValue(PermissionDefault.TRUE);
 		this.setDescription("Reconnect to a game");
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

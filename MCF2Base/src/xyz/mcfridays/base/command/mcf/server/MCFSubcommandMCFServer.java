@@ -23,6 +23,8 @@ public class MCFSubcommandMCFServer extends NovaSubCommand {
 		
 
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

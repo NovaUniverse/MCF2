@@ -23,6 +23,8 @@ public class MCFSubcommandMCFExportResult extends NovaSubCommand {
 		setEmptyTabMode(true);
 
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

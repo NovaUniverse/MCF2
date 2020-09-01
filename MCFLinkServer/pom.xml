@@ -27,7 +27,7 @@
 
 		<repository>
 			<id>zeeraas repo</id>
-			<url>http://maven.zeeraa.xyz/repository/maven-group/</url>
+			<url>https://nexus.zeeraa.net/repository/maven-group/</url>
 		</repository>
 	</repositories>
 

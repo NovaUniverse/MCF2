@@ -18,6 +18,8 @@ public class FlyCommand extends NovaCommand {
 		setAllowedSenders(AllowedSenders.ALL);
 		
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

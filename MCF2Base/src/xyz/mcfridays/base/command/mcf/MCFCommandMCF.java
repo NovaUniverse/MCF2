@@ -30,6 +30,8 @@ public class MCFCommandMCF extends NovaCommand {
 		addSubCommand(new MCFSubcommandMCFExportResult());
 		
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

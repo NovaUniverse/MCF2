@@ -118,12 +118,12 @@
 
 		<repository>
 			<id>zeeraas repo</id>
-			<url>http://maven.zeeraa.xyz/repository/maven-group/</url>
+			<url>https://nexus.zeeraa.net/repository/maven-group/</url>
 		</repository>
 
 		<repository>
 			<id>zeeraas-private-group</id>
-			<url>http://maven.zeeraa.xyz/repository/maven-private-group/</url>
+			<url>https://nexus.zeeraa.net/repository/maven-private-group/</url>
 		</repository>
 
 	</repositories>

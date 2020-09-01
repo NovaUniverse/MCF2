@@ -27,13 +27,14 @@ public class MCFLinkServer extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
-		
+
 		dbc = new DBConnection();
 
 		DBCredentials dbCredentials = new DBCredentials(getConfig().getString("mysql.driver"), getConfig().getString("mysql.host"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"), getConfig().getString("mysql.database"));
 
 		try {
 			dbc.connect(dbCredentials);
+			dbc.startKeepAliveTask();
 		} catch (ClassNotFoundException | SQLException e) {
 			Log.fatal("MCFLinkServer", "Failed to connect to the database");
 			e.printStackTrace();
@@ -51,6 +52,8 @@ public class MCFLinkServer extends JavaPlugin implements Listener {
 
 		if (dbc != null) {
 			try {
+				dbc.endKeepAliveTask();
+				
 				if (dbc.isConnected()) {
 					dbc.close();
 				}

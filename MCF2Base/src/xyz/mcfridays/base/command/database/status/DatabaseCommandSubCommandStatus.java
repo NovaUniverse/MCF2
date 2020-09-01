@@ -16,6 +16,8 @@ public class DatabaseCommandSubCommandStatus extends NovaSubCommand {
 		setAllowedSenders(AllowedSenders.ALL);
 		setPermission("mcf.command.database.status");
 		setPermissionDefaultValue(PermissionDefault.OP);
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override

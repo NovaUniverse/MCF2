@@ -22,6 +22,8 @@ public class MCFSubcommandMCFSendall extends NovaSubCommand {
 		setPermissionDescription("Access to the mcf sendall command");
 
 		addHelpSubCommand();
+		
+		this.setFilterAutocomplete(true);
 	}
 
 	@Override
