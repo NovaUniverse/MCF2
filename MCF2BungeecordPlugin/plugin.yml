@@ -1,0 +1,6 @@
+name: MCF2BungeeCord
+main: xyz.mcfridays.bungeecord.MCF2BungeecordPlugin
+version: 1.0
+author: Zeeraa
+
+depend: [NovaCore]

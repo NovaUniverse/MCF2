@@ -111,36 +111,6 @@
       <artifactId>spigot-api</artifactId>
       <version>1.8.8-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-lang</artifactId>
-          <groupId>commons-lang</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>json-simple</artifactId>
-          <groupId>com.googlecode.json-simple</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>ebean</artifactId>
-          <groupId>org.avaje</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>snakeyaml</artifactId>
-          <groupId>org.yaml</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-chat</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.gmail.filoghost.holographicdisplays</groupId>
@@ -153,36 +123,6 @@
       <artifactId>citizens</artifactId>
       <version>2.0.27-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>citizens-main</artifactId>
-          <groupId>net.citizensnpcs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>citizens-v1_8_R3</artifactId>
-          <groupId>net.citizensnpcs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>citizens-v1_12_R1</artifactId>
-          <groupId>net.citizensnpcs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>citizens-v1_13_R2</artifactId>
-          <groupId>net.citizensnpcs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>citizens-v1_14_R1</artifactId>
-          <groupId>net.citizensnpcs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>citizens-v1_15_R1</artifactId>
-          <groupId>net.citizensnpcs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>citizens-v1_16_R2</artifactId>
-          <groupId>net.citizensnpcs</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>net.zeeraa.novacore</groupId>
@@ -204,4 +144,3 @@
     </dependency>
   </dependencies>
 </project>
-

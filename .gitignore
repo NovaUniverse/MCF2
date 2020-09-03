@@ -1,7 +1,9 @@
 .idea
 bin/
 target/
-craftbukkit.jar
-EZCore.jar
 test_server/
 buildtools
+
+*.jar
+
+dependency-reduced-pom.xml
