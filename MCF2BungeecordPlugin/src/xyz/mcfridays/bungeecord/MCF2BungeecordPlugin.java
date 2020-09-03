@@ -71,11 +71,8 @@ public class MCF2BungeecordPlugin extends NovaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(ChatEvent e) {
-		System.out.println("ChatEvent " + e.getSender().getClass().getName());
 		if (e.getSender() instanceof ProxiedPlayer) {
 			ProxiedPlayer player = (ProxiedPlayer) e.getSender();
-
-			System.out.println("ChatEvent " + player.getName());
 
 			String sql = "INSERT INTO `global_chat_log` (`id`, `uuid`, `username`, `timestamp`, `server_name`, `content`, `is_command`, `canceled`) VALUES (NULL, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
 			try {

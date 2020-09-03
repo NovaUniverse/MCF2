@@ -40,7 +40,6 @@ import net.zeeraa.novacore.spigot.module.modules.gui.GUIManager;
 import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
 import net.zeeraa.novacore.spigot.teams.Team;
 import net.zeeraa.novacore.spigot.utils.BungeecordUtils;
-import xyz.mcfridays.base.bingo.MCFBingoManger;
 import xyz.mcfridays.base.command.database.DatabaseCommand;
 import xyz.mcfridays.base.command.mcf.MCFCommandMCF;
 import xyz.mcfridays.base.command.top.FlyCommand;
@@ -50,6 +49,8 @@ import xyz.mcfridays.base.crafting.EnchantedGoldenAppleRecipe;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
 import xyz.mcfridays.base.deathmessage.MCFTeamEliminationMessage;
+import xyz.mcfridays.base.games.bingo.MCFBingoManger;
+import xyz.mcfridays.base.games.uhc.MCFUHCManager;
 import xyz.mcfridays.base.goldenhead.GoldenHead;
 import xyz.mcfridays.base.kills.KillListener;
 import xyz.mcfridays.base.kills.MCFPlayerKillCache;
@@ -201,6 +202,7 @@ public class MCF extends JavaPlugin implements Listener {
 		ModuleManager.loadModule(GoldenHead.class, true);
 
 		ModuleManager.loadModule(MCFBingoManger.class);
+		ModuleManager.loadModule(MCFUHCManager.class);
 		ModuleManager.loadModule(MCFLobby.class);
 
 		teamManager = new MCFTeamManager();
@@ -298,11 +300,18 @@ public class MCF extends JavaPlugin implements Listener {
 		NetherBoardScoreboard.getInstance().setGlobalLine(0, ChatColor.YELLOW + "" + ChatColor.BOLD + e.getGame().getDisplayName());
 
 		if (e.getGame().getName().equalsIgnoreCase("bingo")) {
+			Log.info("MCF", "Bingo manager enabled");
 			ModuleManager.enable(MCFBingoManger.class);
+		}
+		
+		if (e.getGame().getName().equalsIgnoreCase("uhc")) {
+			Log.info("MCF", "UHC manager enabled");
+			ModuleManager.enable(MCFUHCManager.class);
 		}
 
 		if (e.getGame().getName().equalsIgnoreCase("bingo")) {
 			topEnabled = true;
+			Log.info("MCF", "/top command enabled");
 		}
 	}
 

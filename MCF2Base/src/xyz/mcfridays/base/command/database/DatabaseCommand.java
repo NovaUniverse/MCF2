@@ -6,6 +6,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import xyz.mcfridays.base.command.database.status.DatabaseCommandSubCommandReconnect;
 import xyz.mcfridays.base.command.database.status.DatabaseCommandSubCommandStatus;
 
 public class DatabaseCommand extends NovaCommand {
@@ -22,6 +23,7 @@ public class DatabaseCommand extends NovaCommand {
 		setAllowedSenders(AllowedSenders.ALL);
 
 		addSubCommand(new DatabaseCommandSubCommandStatus());
+		addSubCommand(new DatabaseCommandSubCommandReconnect());
 		
 		addHelpSubCommand();
 		
