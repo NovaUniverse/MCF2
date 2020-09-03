@@ -37,8 +37,9 @@ public class MCF2BungeecordPlugin extends NovaPlugin implements Listener {
 		DBCredentials dbCredentials = new DBCredentials(getConfig().getString("mysql.driver"), getConfig().getString("mysql.host"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"), getConfig().getString("mysql.database"));
 
 		try {
-			MCF2BungeecordPlugin.dbConnection.connect(dbCredentials);
-			MCF2BungeecordPlugin.dbConnection.startKeepAliveTask();
+			dbConnection = new DBConnection();
+			dbConnection.connect(dbCredentials);
+			dbConnection.startKeepAliveTask();
 		} catch (ClassNotFoundException | SQLException e) {
 			Log.fatal("MCF2BungeecordPlugin", "Failed to connect to the database");
 			e.printStackTrace();
@@ -53,14 +54,14 @@ public class MCF2BungeecordPlugin extends NovaPlugin implements Listener {
 		ProxyServer.getInstance().getPluginManager().unregisterListeners((Plugin) this);
 		ProxyServer.getInstance().getScheduler().cancel(this);
 
-		if (MCF2BungeecordPlugin.dbConnection != null) {
-			if (MCF2BungeecordPlugin.dbConnection.isKeepAliveTaskRunning()) {
-				MCF2BungeecordPlugin.dbConnection.endKeepAliveTask();
+		if (dbConnection != null) {
+			if (dbConnection.isKeepAliveTaskRunning()) {
+				dbConnection.endKeepAliveTask();
 			}
 
 			try {
-				if (MCF2BungeecordPlugin.dbConnection.isConnected()) {
-					MCF2BungeecordPlugin.dbConnection.close();
+				if (dbConnection.isConnected()) {
+					dbConnection.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -70,8 +71,11 @@ public class MCF2BungeecordPlugin extends NovaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(ChatEvent e) {
+		System.out.println("ChatEvent " + e.getSender().getClass().getName());
 		if (e.getSender() instanceof ProxiedPlayer) {
 			ProxiedPlayer player = (ProxiedPlayer) e.getSender();
+
+			System.out.println("ChatEvent " + player.getName());
 
 			String sql = "INSERT INTO `global_chat_log` (`id`, `uuid`, `username`, `timestamp`, `server_name`, `content`, `is_command`, `canceled`) VALUES (NULL, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
 			try {
