@@ -34,6 +34,10 @@ public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 			extra += "did not reconnect in time";
 			break;
 
+		case COMMAND:
+			extra += "was elimanated by an admin";
+			break;
+
 		case QUIT:
 			extra += "quit";
 			break;

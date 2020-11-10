@@ -84,6 +84,7 @@ public class ScoreListener implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerEliminated(PlayerEliminatedEvent e) {
+		Log.trace("PlayerEliminatedEvent. " + e.getPlayer().getUniqueId());
 		if (participationScoreEnabled) {
 			if (GameManager.getInstance().hasGame()) {
 				if (GameManager.getInstance().getActiveGame().hasStarted()) {
@@ -134,6 +135,7 @@ public class ScoreListener implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onTeamEliminated(TeamEliminatedEvent e) {
+		Log.trace("TeamEliminatedEvent. " + e.getTeam().getTeamUuid());
 		if (winScoreEnabled) {
 			if (e.getPlacement() > 1) {
 				addTeamPlacementScore(e.getTeam(), e.getPlacement());

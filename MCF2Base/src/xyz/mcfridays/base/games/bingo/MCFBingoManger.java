@@ -21,7 +21,6 @@ import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboar
 import net.zeeraa.novacore.spigot.teams.Team;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.score.ScoreManager;
-import xyz.mcfridays.base.scoreboard.MCFScoreboard;
 import xyz.mcfridays.base.team.MCFTeam;
 
 public class MCFBingoManger extends NovaModule implements Listener {
