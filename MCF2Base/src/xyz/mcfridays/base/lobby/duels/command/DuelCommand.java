@@ -8,11 +8,12 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.lobby.duels.DuelsManager;
 
 public class DuelCommand extends NovaCommand {
 	public DuelCommand() {
-		super("duel");
+		super("duel", MCF.getInstance());
 		this.addHelpSubCommand();
 		this.setPermission("mcf.command.duel");
 		this.setPermissionDefaultValue(PermissionDefault.TRUE);

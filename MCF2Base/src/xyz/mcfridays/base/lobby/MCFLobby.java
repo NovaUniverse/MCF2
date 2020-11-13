@@ -29,6 +29,7 @@ import org.bukkit.util.Vector;
 
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.zeeraa.novacore.commons.log.Log;
+import net.zeeraa.novacore.commons.tasks.Task;
 import net.zeeraa.novacore.commons.utils.RandomGenerator;
 import net.zeeraa.novacore.spigot.NovaCore;
 import net.zeeraa.novacore.spigot.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
@@ -55,15 +56,18 @@ public class MCFLobby extends NovaModule implements Listener {
 
 	private double kotlRadius;
 
-	private int taskId1;
-	private int taskId2;
-
 	private SimpleTask calmDownCageResetTimer;
 
 	private MultiverseWorld multiverseWorld;
 
 	private HashMap<UUID, Integer> theCalmDownCageCounter;
+	
+	private boolean gameRunningMessageSent;
+	private SimpleTask gameRunningCheckTask;
 
+	private SimpleTask loadScoreTask;
+	private SimpleTask lobbyTask;
+	
 	public static MCFLobby getInstance() {
 		return instance;
 	}
@@ -78,10 +82,12 @@ public class MCFLobby extends NovaModule implements Listener {
 		MCFLobby.instance = this;
 		this.addDependency(NetherBoardScoreboard.class);
 		this.addDependency(MultiverseManager.class);
-		this.taskId1 = -1;
-		this.taskId2 = -1;
 		this.lobbyLocation = null;
 		this.multiverseWorld = null;
+		this.gameRunningMessageSent = false;
+		this.gameRunningCheckTask = null;
+		this.loadScoreTask = null;
+		this.lobbyTask = null;
 	}
 
 	@Override
@@ -94,38 +100,37 @@ public class MCFLobby extends NovaModule implements Listener {
 		multiverseWorld.setLockWeather(true);
 
 		NetherBoardScoreboard.getInstance().setGlobalLine(0, ChatColor.YELLOW + "" + ChatColor.BOLD + "Lobby");
-		if (taskId1 == -1) {
-			taskId1 = Bukkit.getScheduler().scheduleSyncRepeatingTask(MCF.getInstance(), new Runnable() {
-				@Override
-				public void run() {
-					for (Player player : lobbyLocation.getWorld().getPlayers()) {
-						player.setFoodLevel(20);
-						if (player.getLocation().getY() < -3) {
-							player.teleport(lobbyLocation);
-							player.setFallDistance(0);
+
+		lobbyTask = new SimpleTask(MCF.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				for (Player player : lobbyLocation.getWorld().getPlayers()) {
+					player.setFoodLevel(20);
+					if (player.getLocation().getY() < -3) {
+						player.teleport(lobbyLocation);
+						player.setFallDistance(0);
+					}
+				}
+			}
+		}, 5L);
+		lobbyTask.start();
+
+		loadScoreTask = new SimpleTask(MCF.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				if (NovaCore.getInstance().hasTeamManager()) {
+					for (Team team : NovaCore.getInstance().getTeamManager().getTeams()) {
+						for (UUID uuid : team.getMembers()) {
+							// Load all players into score cache so that they get displayed in the leader
+							// board
+							ScoreManager.getInstance().getPlayerScore(uuid);
 						}
 					}
 				}
-			}, 5L, 5L);
-
-		}
-
-		if (taskId2 == -1) {
-			taskId2 = Bukkit.getScheduler().scheduleSyncRepeatingTask(MCF.getInstance(), new Runnable() {
-				@Override
-				public void run() {
-					if (NovaCore.getInstance().hasTeamManager()) {
-						for (Team team : NovaCore.getInstance().getTeamManager().getTeams()) {
-							for (UUID uuid : team.getMembers()) {
-								// Load all players into score cache so that they get displayed in the leader
-								// board
-								ScoreManager.getInstance().getPlayerScore(uuid);
-							}
-						}
-					}
-				}
-			}, 200L, 200L);
-		}
+			}
+		}, 200L);
+		loadScoreTask.start();
+		
 		
 		theCalmDownCageCounter = new HashMap<UUID, Integer>();
 
@@ -137,21 +142,37 @@ public class MCFLobby extends NovaModule implements Listener {
 		}, 900L, 900L);
 		calmDownCageResetTimer.start();
 		
+		gameRunningCheckTask = new SimpleTask(MCF.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				String activeServer = MCFDB.getActiveServer();
+				if(activeServer == null) {
+					if(gameRunningMessageSent) {
+						gameRunningMessageSent = false;
+					}
+				} else {
+					if(!gameRunningMessageSent) {
+						gameRunningMessageSent = true;
+						for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+							JSONMessage.create("A game is in progress!").color(ChatColor.GOLD).style(ChatColor.BOLD).send(player);
+							JSONMessage.create("Use /reconnect or click ").color(ChatColor.GOLD).style(ChatColor.BOLD).then("[Here]").color(ChatColor.GREEN).tooltip("Click to reconnect").runCommand("/reconnect").style(ChatColor.BOLD).then(" to reconnect").color(ChatColor.GOLD).style(ChatColor.BOLD).send(player);
+						}
+					}
+				}
+			}
+		}, 20L);
+		gameRunningCheckTask.start();
+		
 		CommandRegistry.registerCommand(new MCFCommandReconnect());
 	}
 
 	@Override
 	public void onDisable() {
-		if (taskId1 != -1) {
-			Bukkit.getScheduler().cancelTask(taskId1);
-			taskId1 = -1;
-		}
-
-		if (taskId2 != -1) {
-			Bukkit.getScheduler().cancelTask(taskId2);
-			taskId2 = -1;
-		}
-
+		Task.tryStopTask(gameRunningCheckTask);
+		Task.tryStopTask(calmDownCageResetTimer);
+		Task.tryStopTask(loadScoreTask);
+		Task.tryStopTask(lobbyTask);
+		
 		MultiverseManager.getInstance().unload(multiverseWorld);
 		multiverseWorld = null;
 	}

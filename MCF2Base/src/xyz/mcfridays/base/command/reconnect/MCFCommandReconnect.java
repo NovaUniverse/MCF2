@@ -11,11 +11,12 @@ import org.bukkit.permissions.PermissionDefault;
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
 import net.zeeraa.novacore.spigot.utils.BungeecordUtils;
+import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.crafting.database.MCFDB;
 
 public class MCFCommandReconnect extends NovaCommand {
 	public MCFCommandReconnect() {
-		super("reconnect");
+		super("reconnect", MCF.getInstance());
 
 		this.setAllowedSenders(AllowedSenders.PLAYERS);
 		this.setPermission("mcf.command.reconnect");

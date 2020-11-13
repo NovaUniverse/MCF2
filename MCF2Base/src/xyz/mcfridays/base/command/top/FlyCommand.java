@@ -8,10 +8,11 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import xyz.mcfridays.base.MCF;
 
 public class FlyCommand extends NovaCommand {
 	public FlyCommand() {
-		super("fly");
+		super("fly", MCF.getInstance());
 		setDescription("Enable flight for you or another player");
 		setPermission("mcf.command.fly");
 		setPermissionDefaultValue(PermissionDefault.OP);

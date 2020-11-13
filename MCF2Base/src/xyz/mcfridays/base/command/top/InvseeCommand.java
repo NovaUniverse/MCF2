@@ -8,10 +8,11 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import xyz.mcfridays.base.MCF;
 
 public class InvseeCommand extends NovaCommand {
 	public InvseeCommand() {
-		super("invsee");
+		super("invsee", MCF.getInstance());
 		setDescription("Access the inventory of a player");
 		setPermission("mcf.command.invsee");
 		setPermissionDefaultValue(PermissionDefault.OP);

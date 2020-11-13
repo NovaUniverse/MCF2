@@ -24,7 +24,7 @@ public class TopCommand extends NovaCommand {
 	private Map<UUID, Integer> cooldownList;
 
 	public TopCommand() {
-		super("top");
+		super("top", MCF.getInstance());
 		setDescription("Teleport to the top of the world");
 		setPermission("mcf.command.top");
 		setPermissionDefaultValue(PermissionDefault.TRUE);

@@ -267,7 +267,7 @@ public class MCF extends JavaPlugin implements Listener {
 			CompassTracker.getInstance().setStrictMode(true);
 		}
 
-		NetherBoardScoreboard.getInstance().setGlobalLine(14, ChatColor.YELLOW + "http://mcfridays.xyz");
+		NetherBoardScoreboard.getInstance().setGlobalLine(14, ChatColor.YELLOW + "https://mcfridays.xyz");
 
 		CommandRegistry.registerCommand(new MCFCommandMCF());
 		CommandRegistry.registerCommand(new TopCommand());

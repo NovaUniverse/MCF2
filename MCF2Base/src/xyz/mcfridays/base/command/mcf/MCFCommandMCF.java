@@ -6,6 +6,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.command.mcf.exportresult.MCFSubcommandMCFExportResult;
 import xyz.mcfridays.base.command.mcf.importdiscordteams.MCFSubcommandMCFImportDiscordTeams;
 import xyz.mcfridays.base.command.mcf.sendall.MCFSubcommandMCFSendall;
@@ -13,7 +14,7 @@ import xyz.mcfridays.base.command.mcf.server.MCFSubcommandMCFServer;
 
 public class MCFCommandMCF extends NovaCommand {
 	public MCFCommandMCF() {
-		super("mcf");
+		super("mcf", MCF.getInstance());
 
 		setAllowedSenders(AllowedSenders.ALL);
 		setDescription("Main command for MCF");

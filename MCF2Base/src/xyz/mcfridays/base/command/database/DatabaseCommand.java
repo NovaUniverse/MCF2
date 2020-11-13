@@ -6,12 +6,13 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.command.database.status.DatabaseCommandSubCommandReconnect;
 import xyz.mcfridays.base.command.database.status.DatabaseCommandSubCommandStatus;
 
 public class DatabaseCommand extends NovaCommand {
 	public DatabaseCommand() {
-		super("database");
+		super("database", MCF.getInstance());
 
 		setAliases(generateAliasList("db", "dbc", "mysql"));
 
