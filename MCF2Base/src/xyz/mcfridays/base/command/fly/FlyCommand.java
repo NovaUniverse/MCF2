@@ -1,4 +1,4 @@
-package xyz.mcfridays.base.command.top;
+package xyz.mcfridays.base.command.fly;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

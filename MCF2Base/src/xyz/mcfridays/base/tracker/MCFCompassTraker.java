@@ -1,5 +1,6 @@
 package xyz.mcfridays.base.tracker;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -7,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.language.LanguageManager;
 import net.zeeraa.novacore.spigot.module.modules.compass.CompassTarget;
 import net.zeeraa.novacore.spigot.module.modules.compass.CompassTrackerTarget;
 import net.zeeraa.novacore.spigot.module.modules.game.GameManager;
@@ -16,8 +18,7 @@ public class MCFCompassTraker implements CompassTrackerTarget {
 	@Override
 	public CompassTarget getCompassTarget(Player player) {
 		if (GameManager.getInstance().hasGame()) {
-			@SuppressWarnings("unchecked")
-			List<UUID> players = (List<UUID>) GameManager.getInstance().getActiveGame().getPlayers().clone();
+			List<UUID> players = new ArrayList<UUID>(GameManager.getInstance().getActiveGame().getPlayers());
 
 			players.remove(player.getUniqueId());
 
@@ -56,7 +57,7 @@ public class MCFCompassTraker implements CompassTrackerTarget {
 
 							if (dist < closestDistance) {
 								closestDistance = dist;
-								result = new CompassTarget(p.getLocation(), "Tracking player " + p.getName());
+								result = new CompassTarget(p.getLocation(), LanguageManager.getString(player, "novacore.game.tracker.tracking_player", p.getName()));
 							}
 						}
 					} else {

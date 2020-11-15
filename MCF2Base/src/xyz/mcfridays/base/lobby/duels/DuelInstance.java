@@ -123,7 +123,7 @@ public class DuelInstance {
 			BasicTimer timer = new BasicTimer(5, 20L);
 			timer.addTickCallback(new TickCallback() {
 				@Override
-				public void execute(int timeLeft) {
+				public void execute(long timeLeft) {
 					if (timeLeft == 0) {
 						return;
 					}

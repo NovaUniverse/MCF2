@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +15,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import net.zeeraa.novacore.spigot.language.LanguageManager;
 import net.zeeraa.novacore.spigot.module.ModuleManager;
 import net.zeeraa.novacore.spigot.module.modules.game.GameManager;
 import xyz.mcfridays.base.MCF;
@@ -31,7 +31,7 @@ public class TopCommand extends NovaCommand {
 		setAllowedSenders(AllowedSenders.PLAYERS);
 
 		setEmptyTabMode(true);
-		
+
 		this.setFilterAutocomplete(true);
 
 		cooldownList = new HashMap<UUID, Integer>();
@@ -46,7 +46,7 @@ public class TopCommand extends NovaCommand {
 						Player player = Bukkit.getServer().getPlayer(uuid);
 						if (player != null) {
 							if (player.isOnline()) {
-								player.sendMessage(ChatColor.GREEN + "You can now use /top again");
+								player.sendMessage(LanguageManager.getString(player, "mcf.command.top.can_use_again"));
 							}
 						}
 						continue;
@@ -63,37 +63,40 @@ public class TopCommand extends NovaCommand {
 		Player p = (Player) sender;
 
 		if (p.getLocation().getWorld().getEnvironment() == Environment.NETHER) {
-			p.sendMessage(ChatColor.RED + "You can't use /top in the nether");
+			p.sendMessage(LanguageManager.getString(p, "mcf.command.top.nether"));
 			return false;
 		}
 
 		if (cooldownList.containsKey(p.getUniqueId())) {
-			p.sendMessage(ChatColor.RED + "Please wait " + cooldownList.get(p.getUniqueId()) + " seconds before using this command again");
+			// p.sendMessage(ChatColor.RED + "Please wait " +
+			// cooldownList.get(p.getUniqueId()) + " seconds before using this command
+			// again");
+			p.sendMessage(LanguageManager.getString(p, "mcf.command.top.wait", cooldownList.get(p.getUniqueId())));
 			return false;
 		}
 
 		if (p.getGameMode() == GameMode.SPECTATOR) {
-			p.sendMessage(ChatColor.RED + "Spectators can't use /top");
+			p.sendMessage(LanguageManager.getString(p, "mcf.command.top.spectator"));
 			return false;
 		}
 
 		if (!ModuleManager.isEnabled(GameManager.class)) {
-			p.sendMessage(ChatColor.RED + "You can't use /top in this world");
+			p.sendMessage(LanguageManager.getString(p, "mcf.command.top.disabled.world"));
 			return false;
 		} else {
 			if (GameManager.getInstance().hasGame()) {
 				if (!GameManager.getInstance().getActiveGame().getWorld().getUID().toString().equalsIgnoreCase(p.getWorld().getUID().toString())) {
-					p.sendMessage(ChatColor.RED + "You can't use /top in this world");
+					p.sendMessage(LanguageManager.getString(p, "mcf.command.top.disabled.world"));
 					return false;
 				}
 			} else {
-				p.sendMessage(ChatColor.RED + "You can't use /top in this world");
+				p.sendMessage(LanguageManager.getString(p, "mcf.command.top.disabled.world"));
 				return false;
 			}
 		}
 
 		if (!MCF.getInstance().isTopEnabled()) {
-			p.sendMessage(ChatColor.RED + "/top is not enabled right now");
+			p.sendMessage(LanguageManager.getString(p, "mcf.command.top.disabled"));
 			return false;
 		}
 
@@ -114,7 +117,7 @@ public class TopCommand extends NovaCommand {
 			}
 		}
 
-		p.sendMessage(ChatColor.RED + "Could not find an empty space to teleport to");
+		p.sendMessage(LanguageManager.getString(p, "mcf.command.top.failed"));
 
 		return false;
 	}

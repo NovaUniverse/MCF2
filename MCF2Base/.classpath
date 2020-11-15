@@ -17,5 +17,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/NovaBingo"/>
+	<classpathentry kind="src" path="lang"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

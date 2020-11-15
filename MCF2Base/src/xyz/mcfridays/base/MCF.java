@@ -27,6 +27,8 @@ import net.zeeraa.novacore.commons.log.Log;
 import net.zeeraa.novacore.spigot.NovaCore;
 import net.zeeraa.novacore.spigot.command.CommandRegistry;
 import net.zeeraa.novacore.spigot.customcrafting.CustomCraftingManager;
+import net.zeeraa.novacore.spigot.language.LanguageManager;
+import net.zeeraa.novacore.spigot.language.LanguageReader;
 import net.zeeraa.novacore.spigot.module.ModuleManager;
 import net.zeeraa.novacore.spigot.module.modules.compass.CompassTracker;
 import net.zeeraa.novacore.spigot.module.modules.game.GameManager;
@@ -41,13 +43,12 @@ import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboar
 import net.zeeraa.novacore.spigot.teams.Team;
 import net.zeeraa.novacore.spigot.utils.BungeecordUtils;
 import xyz.mcfridays.base.command.database.DatabaseCommand;
+import xyz.mcfridays.base.command.fly.FlyCommand;
+import xyz.mcfridays.base.command.invsee.InvseeCommand;
 import xyz.mcfridays.base.command.mcf.MCFCommandMCF;
-import xyz.mcfridays.base.command.top.FlyCommand;
-import xyz.mcfridays.base.command.top.InvseeCommand;
 import xyz.mcfridays.base.command.top.TopCommand;
 import xyz.mcfridays.base.crafting.EnchantedGoldenAppleRecipe;
 import xyz.mcfridays.base.crafting.database.MCFDB;
-import xyz.mcfridays.base.deathmessage.MCFPlayerEliminationMessage;
 import xyz.mcfridays.base.deathmessage.MCFTeamEliminationMessage;
 import xyz.mcfridays.base.games.bingo.MCFBingoManger;
 import xyz.mcfridays.base.games.uhc.MCFUHCManager;
@@ -68,7 +69,6 @@ import xyz.mcfridays.base.lobby.npc.trait.MerchantTrait;
 import xyz.mcfridays.base.misc.MCFPlayerNameCache;
 import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.scoreboard.MCFScoreboard;
-import xyz.mcfridays.base.team.MCFTeam;
 import xyz.mcfridays.base.team.MCFTeamManager;
 import xyz.mcfridays.base.tracker.MCFCompassTraker;
 
@@ -170,6 +170,13 @@ public class MCF extends JavaPlugin implements Listener {
 			return;
 		}
 
+		Log.info("Loading language files...");
+		try {
+			LanguageReader.readFromJar(this.getClass(), "/lang/en-us.json");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		int[] winScore;
 
 		@SuppressWarnings("unchecked")
@@ -198,7 +205,7 @@ public class MCF extends JavaPlugin implements Listener {
 
 		ModuleManager.loadModule(MCFPlayerNameCache.class, true);
 		ModuleManager.loadModule(MCFPlayerKillCache.class, true);
-		
+
 		ModuleManager.loadModule(GoldenHead.class, true);
 
 		ModuleManager.loadModule(MCFBingoManger.class);
@@ -260,7 +267,8 @@ public class MCF extends JavaPlugin implements Listener {
 
 			Bukkit.getServer().getPluginManager().registerEvents(scoreListener, this);
 
-			GameManager.getInstance().setPlayerEliminationMessage(new MCFPlayerEliminationMessage());
+			// GameManager.getInstance().setPlayerEliminationMessage(new
+			// MCFPlayerEliminationMessage());
 			GameManager.getInstance().setTeamEliminationMessage(new MCFTeamEliminationMessage());
 
 			CompassTracker.getInstance().setCompassTrackerTarget(new MCFCompassTraker());
@@ -303,7 +311,7 @@ public class MCF extends JavaPlugin implements Listener {
 			Log.info("MCF", "Bingo manager enabled");
 			ModuleManager.enable(MCFBingoManger.class);
 		}
-		
+
 		if (e.getGame().getName().equalsIgnoreCase("uhc")) {
 			Log.info("MCF", "UHC manager enabled");
 			ModuleManager.enable(MCFUHCManager.class);
@@ -338,7 +346,7 @@ public class MCF extends JavaPlugin implements Listener {
 			@Override
 			public void run() {
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-					p.sendMessage(ChatColor.AQUA + "Sending you to the lobby in 10 seconds");
+					p.sendMessage(LanguageManager.getString(p, "mcf.game.sending_you_to_lobby_10_seconds"));
 				}
 
 				Bukkit.getScheduler().scheduleSyncDelayedTask(MCF.getInstance(), new Runnable() {
@@ -357,7 +365,7 @@ public class MCF extends JavaPlugin implements Listener {
 							@Override
 							public void run() {
 								for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-									p.kickPlayer(ChatColor.AQUA + e.getGame().getDisplayName() + " server restarting, Please reconnect");
+									p.kickPlayer(LanguageManager.getString(p, "mcf.game.server.restarting", e.getGame()));
 								}
 								Bukkit.getServer().shutdown();
 							}
@@ -378,13 +386,19 @@ public class MCF extends JavaPlugin implements Listener {
 			color = team.getTeamColor();
 		}
 
-		Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "GAME OVER> " + ChatColor.GOLD + ChatColor.BOLD + "Winning player: " + color + ChatColor.BOLD + e.getPlayer().getName());
+		// Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD +
+		// "GAME OVER> " + ChatColor.GOLD + ChatColor.BOLD + "Winning player: " + color
+		// + ChatColor.BOLD + e.getPlayer().getName());
+		LanguageManager.broadcast("mcf.game.gameover.winner.player", color.toString(), e.getPlayer().getName());
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onTeamWin(TeamWinEvent e) {
 		ChatColor color = e.getTeam().getTeamColor();
 
-		Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "GAME OVER> " + ChatColor.GOLD + ChatColor.BOLD + "Winning team: " + color + ChatColor.BOLD + "Team " + ((MCFTeam) e.getTeam()).getTeamNumber());
+		// Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD +
+		// "GAME OVER> " + ChatColor.GOLD + ChatColor.BOLD + "Winning team: " + color +
+		// ChatColor.BOLD + "Team " + ((MCFTeam) e.getTeam()).getTeamNumber());
+		LanguageManager.broadcast("mcf.game.gameover.winner.team", color.toString(), e.getTeam().getDisplayName());
 	}
 }

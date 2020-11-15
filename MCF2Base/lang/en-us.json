@@ -1,0 +1,30 @@
+{
+	"language_code": "en-us",
+	"language_name": "English",
+	"content": {
+		"mcf.command.top.can_use_again": "§aYou can now use /top again",
+		"mcf.command.top.nether": "§cYou can't use /top in the nether",
+		"mcf.command.top.spectator": "§cSpectators can't use /top",
+		"mcf.command.top.disabled.world": "§cYou can't use /top in this world",
+		"mcf.command.top.disabled": "§c/top is not enabled right now",
+		"mcf.command.top.failed": "§cCould not find an empty space to teleport to",
+		"mcf.command.top.wait": "§cPlease wait %s seconds before using this command again",
+		
+		"mcf.command.reconnect.connecting": "§aConnecting to the server...",
+		"mcf.command.reconnect.no_game": "§cThere is no active game right now",
+		
+		"mcf.game.elimination.team.eliminated": "§c§lTeam Eliminated> %s§l%s §6§l%s",
+		"mcf.game.sending_you_to_lobby_10_seconds": "§bSending you to the lobby in 10 seconds",
+		"mcf.game.server.restarting": "§b%s server restarting, Please reconnect",
+		
+		"mcf.game.gameover.winner.player": "§a§lGAME OVER> §6§lWinning player: %s§l%s",
+		"mcf.game.gameover.winner.team": "§a§lGAME OVER> §6§lWinning team: %s§l%s",
+		
+		"mcf.scoreboard.score": "Score: ",
+		"mcf.scoreboard.kills": "Kills: ",
+		"mcf.scoreboard.team_score": "Team score: ",
+		"mcf.scoreboard.your_ping": "Your ping: ",
+		"mcf.scoreboard.starting_in": "Starting in: ",
+		"mcf.scoreboard.average_tps": "Average TPS: "
+	}
+}

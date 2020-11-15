@@ -3,13 +3,13 @@ package xyz.mcfridays.base.command.reconnect;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
+import net.zeeraa.novacore.spigot.language.LanguageManager;
 import net.zeeraa.novacore.spigot.utils.BungeecordUtils;
 import xyz.mcfridays.base.MCF;
 import xyz.mcfridays.base.crafting.database.MCFDB;
@@ -30,11 +30,11 @@ public class MCFCommandReconnect extends NovaCommand {
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 		String activeServer = MCFDB.getActiveServer();
 		if (activeServer != null) {
-			sender.sendMessage(ChatColor.GREEN + "Connecting to the server...");
+			sender.sendMessage(LanguageManager.getString(sender, "mcf.command.reconnect.connecting"));
 			BungeecordUtils.sendToServer((Player) sender, activeServer);
 			return true;
 		} else {
-			sender.sendMessage(ChatColor.RED + "There is no active game right now");
+			sender.sendMessage(LanguageManager.getString(sender, "mcf.command.reconnect.no_game"));
 		}
 		return false;
 	}

@@ -51,7 +51,7 @@ public class MCFUHCManager extends NovaModule implements Listener {
 					if (uhc.getGracePeriodTimer().isRunning()) {
 						timeLineShown = true;
 
-						int timeLeft = uhc.getGracePeriodTimer().getTimeLeft();
+						int timeLeft =(int) uhc.getGracePeriodTimer().getTimeLeft();
 
 						ChatColor color = ChatColor.GREEN;
 

@@ -11,6 +11,7 @@ import net.zeeraa.novacore.spigot.module.modules.game.elimination.PlayerEliminat
 import net.zeeraa.novacore.spigot.module.modules.game.messages.PlayerEliminationMessage;
 import net.zeeraa.novacore.spigot.teams.Team;
 
+@Deprecated
 public class MCFPlayerEliminationMessage implements PlayerEliminationMessage {
 	@Override
 	public void showPlayerEliminatedMessage(OfflinePlayer player, Entity killer, PlayerEliminationReason reason, int placement) {

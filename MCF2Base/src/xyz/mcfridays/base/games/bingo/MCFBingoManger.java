@@ -63,7 +63,7 @@ public class MCFBingoManger extends NovaModule implements Listener {
 					if (bingo.getGameTimer().isRunning()) {
 						bingoTimerShown = true;
 
-						int timeLeft = bingo.getGameTimer().getTimeLeft();
+						int timeLeft =(int) bingo.getGameTimer().getTimeLeft();
 
 						ChatColor color;
 

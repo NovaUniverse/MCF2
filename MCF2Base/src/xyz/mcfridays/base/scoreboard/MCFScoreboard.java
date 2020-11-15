@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 
 import net.zeeraa.novacore.commons.utils.TextUtils;
 import net.zeeraa.novacore.spigot.NovaCore;
+import net.zeeraa.novacore.spigot.language.LanguageManager;
 import net.zeeraa.novacore.spigot.module.NovaModule;
 import net.zeeraa.novacore.spigot.module.modules.game.GameManager;
 import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
@@ -18,9 +19,9 @@ import xyz.mcfridays.base.team.MCFTeamManager;
 
 public class MCFScoreboard extends NovaModule implements Listener {
 	private int taskId;
-	
+
 	private boolean gameCountdownShown;
-	
+
 	public static final int COUNTDOWN_LINE = 6;
 
 	@Override
@@ -31,7 +32,7 @@ public class MCFScoreboard extends NovaModule implements Listener {
 	@Override
 	public void onLoad() {
 		this.taskId = -1;
-		this .gameCountdownShown = false;
+		this.gameCountdownShown = false;
 	}
 
 	@Override
@@ -41,6 +42,8 @@ public class MCFScoreboard extends NovaModule implements Listener {
 
 				@Override
 				public void run() {
+					double[] recentTps = NovaCore.getInstance().getVersionIndependentUtils().getRecentTps();
+
 					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 						int playerScore = ScoreManager.getInstance().getPlayerScore(player);
 						int teamScore = 0;
@@ -51,30 +54,33 @@ public class MCFScoreboard extends NovaModule implements Listener {
 							teamScore = team.getScore();
 						}
 
-						NetherBoardScoreboard.getInstance().setPlayerLine(2, player, ChatColor.GOLD + "Score: " + ChatColor.AQUA + playerScore);
-						NetherBoardScoreboard.getInstance().setPlayerLine(3, player, ChatColor.GOLD + "Kills: " + ChatColor.AQUA + MCFPlayerKillCache.getInstance().getPlayerKills(player.getUniqueId()));
-						NetherBoardScoreboard.getInstance().setPlayerLine(4, player, ChatColor.GOLD + "Team score: " + ChatColor.AQUA + teamScore);
+						NetherBoardScoreboard.getInstance().setPlayerLine(2, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.score") + ChatColor.AQUA + playerScore);
+						NetherBoardScoreboard.getInstance().setPlayerLine(3, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.kills") + ChatColor.AQUA + MCFPlayerKillCache.getInstance().getPlayerKills(player.getUniqueId()));
+						NetherBoardScoreboard.getInstance().setPlayerLine(4, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.team_score") + ChatColor.AQUA + teamScore);
 
 						int ping = NovaCore.getInstance().getVersionIndependentUtils().getPlayerPing(player);
 
-						NetherBoardScoreboard.getInstance().setPlayerLine(12, player, ChatColor.GOLD + "Your ping: " + formatPing(ping) + "ms " + (ping > 800 ? ChatColor.YELLOW + TextUtils.ICON_WARNING : ""));
-						
-						if(GameManager.getInstance().getCountdown().isCountdownRunning() && !GameManager.getInstance().getCountdown().hasCountdownFinished()) {
+						NetherBoardScoreboard.getInstance().setPlayerLine(12, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.your_ping") + formatPing(ping) + "ms " + (ping > 800 ? ChatColor.YELLOW + TextUtils.ICON_WARNING : ""));
+
+						if (GameManager.getInstance().getCountdown().isCountdownRunning() && !GameManager.getInstance().getCountdown().hasCountdownFinished()) {
 							gameCountdownShown = true;
-							NetherBoardScoreboard.getInstance().setGlobalLine(COUNTDOWN_LINE, ChatColor.GOLD + "Starting in " + ChatColor.AQUA + TextUtils.secondsToHoursMinutes(GameManager.getInstance().getCountdown().getTimeLeft()));
+							// NetherBoardScoreboard.getInstance().setGlobalLine(COUNTDOWN_LINE,
+							// ChatColor.GOLD+ LanguageManager.getString(player, "")+ ChatColor.AQUA +
+							// TextUtils.secondsToHoursMinutes(GameManager.getInstance().getCountdown().getTimeLeft()));
+
+							NetherBoardScoreboard.getInstance().setPlayerLine(COUNTDOWN_LINE, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.starting_in") + ChatColor.AQUA + TextUtils.secondsToHoursMinutes(GameManager.getInstance().getCountdown().getTimeLeft()));
 						} else {
-							if(gameCountdownShown) {
+							if (gameCountdownShown) {
 								gameCountdownShown = false;
-								NetherBoardScoreboard.getInstance().clearGlobalLine(COUNTDOWN_LINE);
+								NetherBoardScoreboard.getInstance().clearPlayerLine(COUNTDOWN_LINE, player);
+
 							}
 						}
-					}
 
-					double[] recentTps = NovaCore.getInstance().getVersionIndependentUtils().getRecentTps();
-
-					if (recentTps.length > 0) {
-						double tps = recentTps[0];
-						NetherBoardScoreboard.getInstance().setGlobalLine(13, ChatColor.GOLD + "Average TPS: " + formatTps(tps) + (tps < 18 ? " " + ChatColor.RED + TextUtils.ICON_WARNING : ""));
+						if (recentTps.length > 0) {
+							double tps = recentTps[0];
+							NetherBoardScoreboard.getInstance().setPlayerLine(13, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.average_tps") + formatTps(tps) + (tps < 18 ? " " + ChatColor.RED + TextUtils.ICON_WARNING : ""));
+						}
 					}
 				}
 			}, 10L, 10L);
