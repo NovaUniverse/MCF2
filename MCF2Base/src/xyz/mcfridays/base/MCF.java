@@ -71,6 +71,7 @@ import xyz.mcfridays.base.score.ScoreManager;
 import xyz.mcfridays.base.scoreboard.MCFScoreboard;
 import xyz.mcfridays.base.team.MCFTeamManager;
 import xyz.mcfridays.base.tracker.MCFCompassTraker;
+import xyz.mcfridays.base.yborder.YBorder;
 
 public class MCF extends JavaPlugin implements Listener {
 	private static MCF instance;
@@ -212,6 +213,8 @@ public class MCF extends JavaPlugin implements Listener {
 		ModuleManager.loadModule(MCFUHCManager.class);
 		ModuleManager.loadModule(MCFLobby.class);
 
+		ModuleManager.loadModule(YBorder.class);
+		
 		teamManager = new MCFTeamManager();
 		NovaCore.getInstance().setTeamManager(teamManager);
 
@@ -301,6 +304,10 @@ public class MCF extends JavaPlugin implements Listener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setTopEnabled(boolean topEnabled) {
+		this.topEnabled = topEnabled;
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)

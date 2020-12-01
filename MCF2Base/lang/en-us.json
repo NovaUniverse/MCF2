@@ -25,6 +25,14 @@
 		"mcf.scoreboard.team_score": "Team score: ",
 		"mcf.scoreboard.your_ping": "Your ping: ",
 		"mcf.scoreboard.starting_in": "Starting in: ",
-		"mcf.scoreboard.average_tps": "Average TPS: "
+		"mcf.scoreboard.average_tps": "Average TPS: ",
+		
+		"mcf.yborder.start": "§c§lHeight limit is decreasing. You will take damage if you go above the Y level limit",
+		"mcf.yborder.remove": "§c§lHeight limit has been removed",
+		"mcf.yborder.above_limit.warning": "§c§lYou are above the height limit of Y: %s. You will continue to take damage until you get below the limit",
+		"mcf.yborder.above_limit.info": "§c§l%s blocks above the height limit",
+		
+		
+		"mcf.nether_disabled": "§cNether is disabled"
 	}
 }

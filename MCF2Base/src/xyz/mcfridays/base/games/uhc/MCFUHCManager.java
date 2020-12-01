@@ -2,12 +2,15 @@ package xyz.mcfridays.base.games.uhc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import net.novauniverse.games.uhc.NovaUHC;
 import net.novauniverse.games.uhc.game.UHC;
 import net.zeeraa.novacore.commons.utils.TextUtils;
 import net.zeeraa.novacore.spigot.module.NovaModule;
+import net.zeeraa.novacore.spigot.module.modules.game.triggers.event.GameTriggerTriggerEvent;
 import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
 import xyz.mcfridays.base.MCF;
 
@@ -67,6 +70,14 @@ public class MCFUHCManager extends NovaModule implements Listener {
 		}
 	}
 
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onGameTriggerTrigger(GameTriggerTriggerEvent e) {
+		if(e.getTrigger().getName().equalsIgnoreCase("novacore.worldborder.start")) {
+			Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "/top command has been enabled\nUse it to get out of caves when the worldborder is close\nthe /top command has a cooldown so use it only when needed");
+			MCF.getInstance().setTopEnabled(true);
+		}
+	}
+	
 	@Override
 	public void onDisable() {
 		if (taskId != -1) {

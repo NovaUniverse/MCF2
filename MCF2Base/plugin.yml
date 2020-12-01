@@ -5,4 +5,4 @@ version: 1.0
 depend: [NovaCore, HolographicDisplays]
 softdepend: [Citizens]
 
-loadbefore: [NovaUHC, NovaHungergames, NovaSkywars, NovaBingo]
+loadbefore: [NovaUHC, NovaSurvivalGames, NovaSkywars, NovaBingo]
