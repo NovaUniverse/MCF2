@@ -140,7 +140,7 @@ public class MCFLobby extends NovaModule implements Listener {
 				theCalmDownCageCounter.clear();
 			}
 		}, 900L, 900L);
-		calmDownCageResetTimer.start();
+		//calmDownCageResetTimer.start();
 		
 		gameRunningCheckTask = new SimpleTask(MCF.getInstance(), new Runnable() {
 			@Override
@@ -288,10 +288,10 @@ public class MCFLobby extends NovaModule implements Listener {
 
 							if (!p.getInventory().contains(Material.FISHING_ROD)) {
 								if (!theCalmDownCageCounter.containsKey(p.getUniqueId())) {
-									theCalmDownCageCounter.put(p.getUniqueId(), 1);
+									//theCalmDownCageCounter.put(p.getUniqueId(), 1);
 								} else {
 									int newVal = theCalmDownCageCounter.get(p.getUniqueId()) + 1;
-									theCalmDownCageCounter.put(p.getUniqueId(), newVal);
+									//theCalmDownCageCounter.put(p.getUniqueId(), newVal);
 
 									if (newVal > 5) {
 										p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + (RandomGenerator.generate(0, 5) == 4 ? "You have committed crimes against skyrim and her people. what say you in your defense" : "Stop you have violated the law pay the court a fine or serve your sentance"));

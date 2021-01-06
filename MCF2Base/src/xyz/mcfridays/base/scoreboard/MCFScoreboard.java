@@ -4,7 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import net.zeeraa.novacore.commons.log.Log;
 import net.zeeraa.novacore.commons.utils.TextUtils;
 import net.zeeraa.novacore.spigot.NovaCore;
 import net.zeeraa.novacore.spigot.language.LanguageManager;
@@ -62,18 +64,26 @@ public class MCFScoreboard extends NovaModule implements Listener {
 
 						NetherBoardScoreboard.getInstance().setPlayerLine(12, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.your_ping") + formatPing(ping) + "ms " + (ping > 800 ? ChatColor.YELLOW + TextUtils.ICON_WARNING : ""));
 
-						if (GameManager.getInstance().getCountdown().isCountdownRunning() && !GameManager.getInstance().getCountdown().hasCountdownFinished()) {
+						if (GameManager.getInstance().getCountdown().isCountdownRunning()) {
 							gameCountdownShown = true;
 							// NetherBoardScoreboard.getInstance().setGlobalLine(COUNTDOWN_LINE,
 							// ChatColor.GOLD+ LanguageManager.getString(player, "")+ ChatColor.AQUA +
 							// TextUtils.secondsToHoursMinutes(GameManager.getInstance().getCountdown().getTimeLeft()));
-
+							
+							Log.trace("Särbarn(TM)", "showing countdown");
+							
 							NetherBoardScoreboard.getInstance().setPlayerLine(COUNTDOWN_LINE, player, ChatColor.GOLD + LanguageManager.getString(player, "mcf.scoreboard.starting_in") + ChatColor.AQUA + TextUtils.secondsToHoursMinutes(GameManager.getInstance().getCountdown().getTimeLeft()));
 						} else {
 							if (gameCountdownShown) {
 								gameCountdownShown = false;
 								NetherBoardScoreboard.getInstance().clearPlayerLine(COUNTDOWN_LINE, player);
 
+								new BukkitRunnable() {
+									@Override
+									public void run() {
+										NetherBoardScoreboard.getInstance().clearPlayerLine(COUNTDOWN_LINE, player);
+									}
+								}.runTaskLater(MCF.getInstance(), 10L);
 							}
 						}
 

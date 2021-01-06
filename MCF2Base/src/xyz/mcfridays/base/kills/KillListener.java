@@ -38,6 +38,7 @@ public class KillListener extends NovaModule implements Listener {
 			}
 
 			if (killerPlayer != null) {
+				killerPlayer.setLevel(killerPlayer.getLevel() + 1);
 				MCFDB.addKill(killerPlayer);
 				MCFPlayerKillCache.getInstance().invalidate(killerPlayer);
 			}

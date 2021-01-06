@@ -286,7 +286,7 @@ public class DuelsManager extends NovaModule implements Listener {
 		invites.put(inviteUuid, from.getUniqueId());
 
 		Log.debug(from.getName() + " invited " + to.getName() + " to a duel");
-		JSONMessage.create(from.getName() + " has send you a duel request. Click this message to accept").color(ChatColor.GREEN).runCommand("/acceptduel " + inviteUuid.toString()).send(to);
+		JSONMessage.create(from.getName() + " has sent you a duel request. Click this message to accept").color(ChatColor.GREEN).runCommand("/acceptduel " + inviteUuid.toString()).send(to);
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(MCF.getInstance(), new Runnable() {
 			@Override
